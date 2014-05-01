@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: akshara
+  host: localhost
+  pool: 5
+  username: afzal
+  password: afzal
