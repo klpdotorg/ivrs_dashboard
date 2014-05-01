@@ -18,6 +18,7 @@ group :assets do
   gem 'jquery-rails'  
 end
 gem 'haml'
+gem "roo"
 
 # Development
 group :development do

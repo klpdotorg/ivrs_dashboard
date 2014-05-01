@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20140501072913) do
   create_table "schools", :force => true do |t|
     t.integer  "code"
     t.string   "name"
-    t.string   "type"
+    t.string   "genre"
     t.string   "block"
     t.string   "cluster"
     t.string   "district"
