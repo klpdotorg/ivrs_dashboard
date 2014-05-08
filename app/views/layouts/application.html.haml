@@ -5,29 +5,31 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body
+  %body    
     .container.ta_c.mar_top_25
       =image_tag "klp_logo_light.png", alt: "KLP", width: "160"
 
-    = yield
+    .container  
+      = yield
 
-    %footer.main-footer
-      .footer-wrapper
-        %nav.nav
-          %ul
-            %li
-              %a{:href => "", :title => ""} About
-            %li
-              %a{:href => "", :title => ""} Press
-            %li
-              %a{:href => "", :title => ""} Contact
-            %li.hidden-phone.hidden-tablet
-              %a{:href => "", :title => ""} School Map
-            %li.hidden-phone.hidden-tablet
-              %a{:href => "", :title => ""} Programmes
-            %li.hidden-phone.hidden-tablet
-              %a{:href => "", :title => ""} Databases
-            %li.hidden-phone.hidden-tablet
-              %a{:href => "", :title => ""} Reports
-            .clr
-        .copyright Copyright 2014. All Rights Reserved.      
+    .container  
+      %footer.main-footer
+        .footer-wrapper
+          %nav.nav
+            %ul
+              %li
+                %a{:href => "", :title => ""} About
+              %li
+                %a{:href => "", :title => ""} Press
+              %li
+                %a{:href => "", :title => ""} Contact
+              %li.hidden-phone.hidden-tablet
+                %a{:href => "", :title => ""} School Map
+              %li.hidden-phone.hidden-tablet
+                %a{:href => "", :title => ""} Programmes
+              %li.hidden-phone.hidden-tablet
+                %a{:href => "", :title => ""} Databases
+              %li.hidden-phone.hidden-tablet
+                %a{:href => "", :title => ""} Reports
+              .clr
+          .copyright Copyright 2014. All Rights Reserved.      

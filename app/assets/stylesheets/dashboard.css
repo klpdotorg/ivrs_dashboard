@@ -1,0 +1,28 @@
+#dashboard-info {
+  background-color: #3a87ad;
+  border-width: 2px;
+  width: 100%;
+  height: 90px;
+  border-color: white;
+}
+#dashboard-info #value {
+  padding-top: 15px;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 52px;
+}
+#dashboard-info #value-info {
+  margin-top: -10px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+}
+
+#pre-school-bar-chart {
+  padding-top: 20px;
+  text-align: center;
+  color: white;
+  font-weight: 700;
+  font-size: 52px;
+}

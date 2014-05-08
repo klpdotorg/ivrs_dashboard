@@ -1,7 +1,8 @@
 class School < ActiveRecord::Base
-  
+  self.primary_key = 'code'
   attr_accessible :block, :cluster, :code, :district, :name, :genre
 
+  has_many :responses
   before_save :trim_strings
 
   def self.seed  
@@ -9,7 +10,6 @@ class School < ActiveRecord::Base
     csv_text = File.read('public/schools2.csv')
     csv = CSV.parse(csv_text, :headers => true)    
     csv.each do |row|
-      puts row.to_hash
       School.create!(row.to_hash)
     end    
   end
