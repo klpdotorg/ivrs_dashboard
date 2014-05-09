@@ -1,5 +1,5 @@
 class School < ActiveRecord::Base
-  #self.primary_key = 'code'
+  self.primary_key = 'code'
   attr_accessible :block, :cluster, :code, :district, :name, :genre
 
   has_many :responses
