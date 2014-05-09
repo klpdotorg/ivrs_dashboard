@@ -6,3 +6,12 @@ development:
   pool: 5
   username: afzal
   password: afzal
+
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: akshara_rails
+  host: localhost
+  pool: 5
+  username: akshara
+  password: akshara
