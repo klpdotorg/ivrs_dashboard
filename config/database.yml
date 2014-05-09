@@ -7,11 +7,12 @@ development:
   username: afzal
   password: afzal
 
-development:
+production:
   adapter: postgresql
-  encoding: unicode
+  host: localhost
+  username: nekkoru
+  password: derpderp
   database: akshara_rails
-  #host: localhost
-  pool: 5
+  encoding: UTF8
   username: akshara
   password: akshara
