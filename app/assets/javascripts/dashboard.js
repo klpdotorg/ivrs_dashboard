@@ -1,9 +1,409 @@
-$(document).ready(function(){
-  $('.tabs ul.tabs-nav li').click(function(){
+$(document).ready(function () {
+  $('.tabs ul.tabs-nav li').click(function () {
     var tab_id = $(this).attr('data-tab');
     $('.tabs ul.tabs-nav li').removeClass('current');
     $('.tabs .tabs-content').removeClass('current');
     $(this).addClass('current');
-    $("#"+tab_id).addClass('current');
+    $("#" + tab_id).addClass('current');
   });
 });
+
+function dashboardChartInit(edata) {
+
+  var numResponsesChart = dc.barChart("#pre-school-bar-chart");
+  var responsesChartWidth = $("#pre-school-bar-chart").width();
+  var choroplethChart = dc.geoChoroplethChart("#pre-school-map");
+  var schoolTypeChart = dc.pieChart("#pre-school-type");
+  var question1Chart = dc.pieChart("#pre-school-question1");
+  var question2Chart = dc.pieChart("#pre-school-question2");
+  var question3Chart = dc.pieChart("#pre-school-question3");
+  var question4Chart = dc.pieChart("#pre-school-question4");
+  var question6Chart = dc.pieChart("#pre-school-question6");
+  var dataTable = dc.dataTable("#response-list");
+
+  var pre_school = edata.pre_school;
+  
+  //console.log(pre_school[0])
+  
+    data = pre_school;
+    // Let's have a date object for each record from the individual date fields
+    data.forEach(function (d, i) {
+      d.date = new Date(d.years, d.months - 1, d.dates);
+    });
+
+    // A nest operator, for grouping the responses to questions
+    var nestByDistrict = d3.nest()
+      .key(function (d) {
+        return d.district;
+      });
+
+    // Create the crossfilter for the relevant dimensions and groups
+    var questionaire = crossfilter(data),
+      all = questionaire.groupAll(),
+      id = questionaire.dimension(function (d) {
+        return d.id;
+      }),
+      district = questionaire.dimension(function (d) {
+        return d.district;
+      }),
+      blocks = questionaire.dimension(function (d) {
+        return d.blocks;
+      }),
+      clusters = questionaire.dimension(function (d) {
+        return d.clusters;
+      }),
+      genre = questionaire.dimension(function (d) {
+        return d.genre;
+      }),
+      types = questionaire.dimension(function (d) {
+        return d.types;
+      }),
+      school_name = questionaire.dimension(function (d) {
+        return d.school_name;
+      }),
+      mobile_no = questionaire.dimension(function (d) {
+        return d.mobile_no;
+      }),
+      date = questionaire.dimension(function (d) {
+        return d.date;
+      }),
+      datesGrp = date.group(d3.time.month),
+      question1 = questionaire.dimension(function (d) {
+        if(d.question1 !== "") return d.question1;
+      }),
+      question2 = questionaire.dimension(function (d) {
+        if(d.question2 !== "") return d.question2;
+      }),
+      question3 = questionaire.dimension(function (d) {
+        if(d.question3 !== "") return d.question3;
+      }),
+      question4 = questionaire.dimension(function (d) {
+        if(d.question4 !== "") return d.question4;
+      }),
+      question5 = questionaire.dimension(function (d) {
+        if(d.question5 !== "") return d.question5;
+      }),
+      question6 = questionaire.dimension(function (d) {
+        if(d.question6 !== "") return d.question6;
+      });
+
+    // Get the count of facts
+    schoolGroup = types.group().reduceCount(function (d) {
+      return d.types;
+    });
+    numResponsesGroup = date.group(d3.time.month).reduceCount(function (d) {
+      return d.id;
+    });
+    q1Group = question1.group().reduceCount(function (d) {
+      return d.question1;
+    });
+    q2Group = question2.group().reduceCount(function (d) {
+      return d.question2;
+    });
+    q3Group = question3.group().reduceCount(function (d) {
+      return d.question3;
+    });
+    q4Group = question4.group().reduceCount(function (d) {
+      return d.question4;
+    });
+    q6Group = question6.group().reduceCount(function (d) {
+      return d.question6;
+    });
+    districtGroup = district.group().reduceCount(function (d) {
+      return d.id;
+    });
+    genreGroup = district.group().reduceCount(function (d) {
+      return d.genre;
+    });
+
+    var blockGroup = blocks.group().reduceCount(function (d) {
+      return d.blocks;
+    });
+    var clusterGroup = clusters.group().reduceCount(function (d) {
+      return d.clusters;
+    });
+
+    // Show onlly pre-school data initially
+    genre.filter("preschool");
+
+    // Get unique list of blocks
+    var listBlocksSorted = blockGroup.all()
+      .sort(function (a, b) {
+        return a.key === b.key ? 0 : a.key < b.key ? -1 : 1;
+      })
+      .map(function (a) {
+        return a.key;
+      });
+    // Get unique list of clusters
+    var listClustersSorted = clusterGroup.all()
+      .sort(function (a, b) {
+        return a.key === b.key ? 0 : a.key < b.key ? -1 : 1;
+      })
+      .map(function (a) {
+        return a.key;
+      });
+
+    // Create another dimension which the selected dropdown value will be applied to
+    var filterBlocks = questionaire.dimension(function (d) {
+      return d.blocks;
+    });
+    var filterClusters = questionaire.dimension(function (d) {
+      return d.clusters;
+    });
+
+    // Fill Block dropdown
+    // Get sorted values
+    var select_box_options = listBlocksSorted;
+    // Target the select dropdown to be filled with options
+    var sel = document.getElementById('listBlocksChosen');
+    // For each block in the list, create an option
+    for(var i = 0; i < select_box_options.length; ++i) {
+      var opt = document.createElement('option');
+      opt.innerHTML = select_box_options[i];
+      opt.value = select_box_options[i];
+      sel.appendChild(opt);
+    }
+    $("#listBlocksChosen").change(function (d) {
+      var selectBoxArray = $("#listBlocksChosen").val();
+
+      if(selectBoxArray !== null && selectBoxArray !== "select_block") {
+        filterBlocks.filter(function (d) {
+          return selectBoxArray.indexOf(d) >= 0;
+        });
+      } else if(selectBoxArray == "select_block") {
+        filterBlocks.filterAll();
+      }
+      dc.redrawAll();
+    });
+
+    // Fill Cluster dropdown
+    select_box_options = listClustersSorted;
+    // Target the select dropdown to be filled with options
+    sel = document.getElementById('listClustersChosen');
+    // For each cluster in the list, create an option
+    for(var i = 0; i < select_box_options.length; ++i) {
+      var opt = document.createElement('option');
+      opt.innerHTML = select_box_options[i];
+      opt.value = select_box_options[i];
+      sel.appendChild(opt);
+    }
+    $("#listClustersChosen").change(function (d) {
+      var selectBoxArray1 = $("#listClustersChosen").val();
+
+      if(selectBoxArray1 !== null && selectBoxArray1 !== "select_cluster") {
+        filterClusters.filter(function (d) {
+          return selectBoxArray1.indexOf(d) >= 0;
+        });
+      } else if(selectBoxArray1 == "select_cluster") {
+        filterClusters.filterAll();
+      }
+      dc.redrawAll();
+    });
+
+    // Show only pre-school data
+    $("#pre_school").click(function () {
+      genre.filterAll();
+      genre.filter("preschool");
+      dc.redrawAll();
+    });
+
+    // Show only school data
+    $("#school").click(function () {
+      genre.filterAll();
+      genre.filter("school");
+      dc.redrawAll();
+    });
+
+    var dates = date.group(d3.time.month).reduceCount(function (d) {
+      return d.id;
+    });
+
+    d3.json("/rahul/districts.json", function (error, map_data) {
+
+      var projection = d3.geo.mercator()
+        .scale(2200)
+        .translate([-2800, 770]);
+
+      // Draw the state map
+      choroplethChart.projection(projection)
+        .width(250)
+        .height(350)
+        .dimension(district)
+        .group(districtGroup)
+        .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+        .colorDomain([0, 2000])
+        .colorCalculator(function (d) {
+          return d ? choroplethChart.colors()(d) : '#ccc';
+        })
+        .colorAccessor(function (d, i) {
+          return d;
+        })
+        .overlayGeoJson(map_data.features, "district", function (d) {
+          //console.log(d);
+          return d.properties.dist_name;
+        });
+
+      numResponsesChart.width(responsesChartWidth)
+        .height(165)
+        .margins({
+          top: 15,
+          right: 10,
+          bottom: 30,
+          left: 50
+        })
+        .dimension(id)
+        .gap(1)
+        .group(dates)
+      //.yAxis().ticks(4)
+      .centerBar(true)
+      //.elasticY(true)
+      .xUnits(function () {
+        return 20;
+      })
+        .x(d3.time.scale()
+          .domain([new Date(2013, 03, 1), new Date()])
+          .rangeRound([0, 1060]))
+        .xAxis().ticks(d3.time.month, 3);
+
+      // Draw the charts
+      schoolTypeChart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(types)
+        .group(schoolGroup)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          //console.log(d);
+          return d.key;
+        });
+      question1Chart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(question1)
+        .group(q1Group)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          if(d.key == '1')
+            return 'Y';
+          else if(d.key == '0')
+            return 'N';
+        });
+      question2Chart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(question2)
+        .group(q2Group)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          if(d.key == '1')
+            return 'Y';
+          else if(d.key == '0')
+            return 'N';
+        });
+      question3Chart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(question3)
+        .group(q3Group)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          if(d.key == '1')
+            return 'Y';
+          else if(d.key == '0')
+            return 'N';
+        });
+      question4Chart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(question4)
+        .group(q4Group)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          if(d.key == '1')
+            return 'Y';
+          else if(d.key == '0')
+            return 'N';
+        });
+      question6Chart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(question6)
+        .group(q6Group)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          if(d.key == '1')
+            return 'A';
+          else if(d.key == '2')
+            return 'B';
+          else if(d.key == '3')
+            return 'C';
+        });
+
+      dataTable.dimension(date)
+        .group(function (d) {
+          return ""
+        })
+        .size(40) // number of rows
+      .columns([
+
+        function (d) {
+          var dd = d.date.getDate();
+          var mm = d.date.getMonth() + 1;
+          var yyyy = d.date.getFullYear();
+          if(dd < 10)
+            dd = '0' + dd;
+          if(mm < 10)
+            mm = '0' + mm;
+          var form_date = dd + '/' + mm + '/' + yyyy;
+          return form_date;
+        },
+        function (d) {
+          return d.blocks.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+        },
+        function (d) {
+          return d.clusters.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+        },
+        function (d) {
+          return d.school_name.replace(/\w\S*/g, function (txt) {
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+          });
+        },
+        function (d) {
+          return d.question1;
+        },
+        function (d) {
+          return d.question2;
+        },
+        function (d) {
+          return d.question3;
+        },
+        function (d) {
+          return d.question4;
+        },
+        function (d) {
+          return d.question5;
+        },
+        function (d) {
+          return d.question6;
+        }
+      ])
+        .sortBy(function (d) {
+          return d.date;
+        })
+        .order(d3.ascending);
+
+      dc.renderAll();
+
+    });
+
+}

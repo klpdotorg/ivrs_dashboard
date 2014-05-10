@@ -2,27 +2,27 @@
   .container
     #section_header.heading
       %h2 Dashboard
-
 .tabs
   %ul.tabs-nav
-    %li.current{"data-tab" => "tab-one"} Pre school
-    %li{"data-tab" => "tab-two"} School
+    %li.current{"data-tab" => "tab-one", id: "pre-school"} Pre school
+    %li{"data-tab" => "tab-two", id: "school"} School
   #tab-one.tabs-content.current
     .circular_count_item    
-      .row
-        .col-sm-3
+      .row{style: "margin-top:15px;"}
+        .col-sm-3{style: "margin-top:40px;"}
           %div#dashboard-info
-            %p#value=12
+            %p#value=@dashboard[:pre_schools_yesterday]
             %p#value-info No. of response yesterday  
 
-        .col-sm-3        
+        .col-sm-3{style: "margin-top:40px;"}        
           %div#dashboard-info
-            %p#value 192
+            %p#value=@dashboard[:schools_yesterday]
             %p#value-info No. of response this week  
 
         .col-sm-6
+          %center
+            %strong Number of Responses
           #pre-school-bar-chart
-            = image_tag "bar-chart.jpg", size: "400x100"
 
       %hr      
       .row
@@ -30,37 +30,49 @@
           %center
             Select District
           %p
-            /= render partial: "kt"
+          #pre-school-map
+            
         .col-sm-9
           .row
             .col-sm-3
               School type
               %p
-                %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
-
+                #pre-school-type
 
             .col-sm-3              
               Question - 1
               %p
-                %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
+                #pre-school-question1
                 
             .col-sm-3              
               Question - 2
               %p
-                %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
+                #pre-school-question2
 
             .col-sm-3              
               Question - 3
               %p
-                %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
+                #pre-school-question3
 
           .row
             .col-sm-3
+              %table.table.table-condensed.table-striped
+                %th Block
+                %tr
+                  %td 
+                    %select#listBlocksChosen{style:"width:150px"}
+                      %option{:value => "select_block"} Select Block
+                %tr    
+                  %th Cluster
+                %tr  
+                  %td 
+                    %select#listClustersChosen{style:"width:150px"}
+                      %option{:value => "select_cluster"} Select Cluster
 
             .col-sm-3              
               Question - 4
               %p
-                %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
+                #pre-school-question4
                 
             .col-sm-3              
               Question - 5
@@ -70,8 +82,25 @@
             .col-sm-3              
               Question - 6
               %p
-                %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
-
+                #pre-school-question6
+      .row
+        .col-sm-12
+          %table.table.table-hover{id: "response-list"}
+            %th Date
+            %th Block
+            %th Cluster
+            %th School Name
+            %th Q1
+            %th Q2
+            %th Q3
+            %th Q4
+            %th Q5
+            %th Q6
 
   #tab-two.tabs-content
     %p This is school content
+
+:javascript
+  $(document).ready(function() {
+    dashboardChartInit(#{@dashboard.to_json});
+  });

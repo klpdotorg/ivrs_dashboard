@@ -1,0 +1,102 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+
+.dc-chart rect.bar {
+    stroke: none;
+    cursor: pointer;
+}
+
+.title{
+	font-style: bold;
+	font-family: arial;
+}
+
+#num-responses
+{
+	text-align: right;
+}
+
+#school-type
+{
+	text-align: center;
+	cursor: pointer;
+}
+
+
+#question1
+{
+text-align: center;
+	cursor: pointer;
+}
+
+#question2
+{
+	text-align: center;
+	cursor: pointer;
+}
+
+#question3
+{
+	text-align: center;
+	cursor: pointer;
+}
+
+#question4
+{
+text-align: center;
+	cursor: pointer;
+}
+
+#question6
+{
+	text-align: center;
+	cursor: pointer;
+}
+
+#map
+{
+	text-align: center;
+}
+
+#lists
+{
+	position: absolute;
+	top: 650px;
+	left:70px;
+}
+
+#num_response_yest
+{
+	text-align: center;
+}
+#num_response_yest #num_response_yest_n
+{
+	font-size: 7em;
+}
+
+#num_response_this_week
+{
+	text-align: center;
+}
+#num_response_this_week #num_response_this_week_n
+{
+	font-size: 7em;
+}
+
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+#response-list
+{
+	position: absolute;
+	top: 650px;
+	left:70px;
+}
+
+td
+{
+	padding: 10px 10px 10px 10px;
+}

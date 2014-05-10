@@ -1,0 +1,112 @@
+/*@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);*/
+
+
+.nav-tabs {
+	background-color: #62B2FA;
+	margin-top: 1em;
+	border:0;
+}
+
+.head-tabs > li > a{
+	color: white;
+	line-height: 1em;
+	margin-top: 5px;
+}
+
+.head-tabs > li > a:hover{
+	background-color: rgb(49, 130, 189);
+	color: white;
+}
+
+.head-tabs > li > a:active{
+	background-color: white;
+	color: #62B2FA;
+}
+
+.pre-active{
+	margin-left: 1em;
+}
+
+.data{
+	/*border: 1px solid;*/
+	display:inline-block; 
+	text-align: center; 
+	width: 11.42em;
+	font-size: 1em; 
+	margin: 14px 0 14px 14px;
+	float: left;
+}
+.data_txt{
+	/*border: 2px solid;*/
+	font-size:1em; 
+	text-align:center;
+}
+.bar_graph{
+	/*border: 1px solid;*/
+	float:right;
+	margin: 1em;
+	height: 13em;
+	width: 41em;
+	/*padding-left: 2.5em;*/
+}
+.map{
+	float: left;
+	/*border: 1px solid;*/
+	height: 29.1em;
+	width: 24em;
+	margin: 0 0 1em 0.99em;
+	box-shadow: 1px 1px 5px gray;
+}
+
+.dropdown{
+	float: left;
+	margin-left: 6.7em;
+}
+.pais{
+	/*border: 1px solid;*/
+	float:left;
+	margin-top: 1.33em;
+	height: 12.5em;
+	width: 13em;
+	margin-left: 0.99em;
+}
+
+.table {
+	/*border:1px solid black;*/
+	float:left;
+	width: 100%;
+}
+
+td, th {
+	/*border: 1px solid black;*/
+	/*padding: 0.3em 2.74em;*/
+	text-align: center;
+}
+
+.box{
+	box-shadow: 1px 1px 5px black;
+}
+
+.title{
+	font-family: "lato", sans-serif;
+	text-transform: uppercase;
+	/*font-style: italic;*/
+	/*font-weight:bold;*/
+	font-size: 0.85em;
+	letter-spacing: 1px;
+}
+
+.chosen-select{
+	font-family: "lato", sans-serif;
+	font-size: 0.85em;	
+}
+
+select{
+	border: 0;
+	box-shadow: 1px 1px 5px gray
+}
+
+.text-panel{
+	padding-left: 2em;
+	background-color: rgb(107, 174, 214); 
+}

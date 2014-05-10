@@ -27,6 +27,22 @@ class Response < ActiveRecord::Base
     CSV.parse(icsv)
   end
 
+  def self.makeDataInChartFormat(responses,type)
+    values = []
+    responses.each do |response|
+      values << { id: response.id, district: response.school.district.downcase,
+                  blocks: response.school.block, clusters: response.school.cluster, 
+                  genre: type, school_name: response.school.name, 
+                  mobile_no: response.mobile_no, dates: response.date.day,
+                  months: response.date.month, years: response.date.year, types: response.school.genre,
+                  question1: response.a1, question2: response.a2, question3: response.a3, 
+                  question4: response.a4, question5: response.a5, question6: response.a6 
+                }
+
+    end
+    values
+  end
+
   def self.seed  
     Response.delete_all  
     csv_text = File.read('public/response.csv')

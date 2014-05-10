@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: akshara_rails
+  database: akshara
   host: localhost
   pool: 5
-  username: akshara
-  password: akshara
+  username: afzal
+  password: afzal
 
 production:
   adapter: postgresql
