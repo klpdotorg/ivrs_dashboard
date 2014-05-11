@@ -176,7 +176,7 @@ td
   	<div class="title">Question 6</div>
   	<div id="question6Chart" class="chart"></div>
   </div>
- 
+
 </div>
 
 <table id="response-list" class="table table-hover dc-data-table">
@@ -238,7 +238,7 @@ d3.csv("klp_warehouse.csv", function(error, data){
 			++num_response_yest;
 		}
 	});
-	
+
 
 	$("#num_response_yest_n").html(num_response_yest);
 
@@ -305,7 +305,7 @@ var questionaire = crossfilter(data),
 	// Get unique list of clusters
 	var listClustersSorted = clusterGroup.all()
 		.sort(function(a, b) {
-			return a.key === b.key ? 0 : a.key < b.key ? -1 : 1;	
+			return a.key === b.key ? 0 : a.key < b.key ? -1 : 1;
 		})
 		.map(function(a) { return a.key; });
 
@@ -371,7 +371,7 @@ var questionaire = crossfilter(data),
 	// Show only pre-school data
 	$("#pre_school").click(function() {
 		genre.filterAll();
-		genre.filter("preschool");		
+		genre.filter("preschool");
 		dc.redrawAll();
 	});
 
@@ -392,7 +392,7 @@ var questionaire = crossfilter(data),
 			.scale(2200)
             .translate([-2800,770]);
 
-	
+
 		// Draw the state map
 	choroplethChart.projection(projection)
 		.width(250)
@@ -402,7 +402,7 @@ var questionaire = crossfilter(data),
 		.colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
 		.colorDomain([0, 2000])
 		.colorCalculator(function(d) {
-			return d ? choroplethChart.colors()(d) : '#ccc'; 
+			return d ? choroplethChart.colors()(d) : '#ccc';
 		})
 		.colorAccessor(function(d, i) { return d; })
 		.overlayGeoJson(map_data.features, "district", function(d) {
@@ -417,14 +417,14 @@ var questionaire = crossfilter(data),
 				 .gap(1)
 				 .group(dates)
 				 //.yAxis().ticks(4)
-				 .centerBar(true) 
+				 .centerBar(true)
 				 //.elasticY(true)
 				 .xUnits(function(){return 20;})
 				 .x(d3.time.scale()
 				 	.domain([new Date(2013, 03, 1), new Date()])
 				 	.rangeRound([0, 1060]))
 				 .xAxis().ticks(d3.time.month, 3);
-				 
+
 
 	// Draw the charts
 	schoolTypeChart.width(150)
@@ -504,14 +504,14 @@ var questionaire = crossfilter(data),
 				  			return 'B';
 				  		else if(d.key == '3')
 				  			return 'C';
-				  });				  
+				  });
 
 	dataTable.width(800).height(500)
 			.dimension(date)
 			.group(function(d) {return ""})
 			.size(40)		// number of rows
 			.columns([
-				function(d) { 
+				function(d) {
 					var dd = d.date.getDate();
 					var mm = d.date.getMonth()+1;
 					var yyyy = d.date.getFullYear();
@@ -522,14 +522,14 @@ var questionaire = crossfilter(data),
 					var form_date = dd + '/' + mm + '/' + yyyy;
 					return form_date;
 				 },
-				function(d) { 
+				function(d) {
 					return d.blocks.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 				},
-				function(d) { 
-					return d.clusters.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); 
+				function(d) {
+					return d.clusters.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 				},
-				function(d) { 
-					return d.school_name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); 
+				function(d) {
+					return d.school_name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 				},
 				function(d) { return d.question1; },
 				function(d) { return d.question2; },
@@ -547,6 +547,6 @@ var questionaire = crossfilter(data),
 
 
 });
-	
+
 
 </script>

@@ -4,8 +4,8 @@ development:
   database: akshara
   host: localhost
   pool: 5
-  username: afzal
-  password: afzal
+  username: developer
+  password: lapp
 
 production:
   adapter: postgresql

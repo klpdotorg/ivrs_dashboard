@@ -8,32 +8,49 @@ $(document).ready(function () {
   });
 });
 
-function dashboardChartInit(edata,genre) {
-  if (genre === "pre") {
-    var SCHOOL_TYPE = "pre-school"
-    var data = edata.pre_school;
-  }else {
-    var SCHOOL_TYPE = "school"
-    var data = edata.schools;
-  }
-  console.log(data,genre)
-  var numResponsesChart = dc.barChart("#"+SCHOOL_TYPE+"-bar-chart");
-  var responsesChartWidth = $("#"+SCHOOL_TYPE+"-bar-chart").width();
-  var choroplethChart = dc.geoChoroplethChart("#"+SCHOOL_TYPE+"-map");
-  var schoolTypeChart = dc.pieChart("#"+SCHOOL_TYPE+"-type");
-  var question1Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question1");
-  var question2Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question2");
-  var question3Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question3");
-  var question4Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question4");
-  var question6Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question6");
-  var dataTable = dc.dataTable("#"+SCHOOL_TYPE+"-response-list");
+function dashboardChartInit(data) {
+  var numResponsesChart = dc.barChart("#bar-chart");
+  var responsesChartWidth = $("#bar-chart").width();
+  var choroplethChart = dc.geoChoroplethChart("#map");
+  var schoolTypeChart = dc.pieChart("#type");
+  var question1Chart = dc.pieChart("#question1");
+  var question2Chart = dc.pieChart("#question2");
+  var question3Chart = dc.pieChart("#question3");
+  var question4Chart = dc.pieChart("#question4");
+  var question5Chart = dc.pieChart("#question5");
+  var question6Chart = dc.pieChart("#question6");
+  var dataTable = dc.dataTable("#response-list");
 
-  
-  
+
+
     // Let's have a date object for each record from the individual date fields
     data.forEach(function (d, i) {
       d.date = new Date(d.years, d.months - 1, d.dates);
     });
+
+    // Get the number of responses for yesterday
+    var num_response_yest = 0;
+    data.forEach(function(d) {
+      var yest_date = new Date();
+      yest_date.setDate(yest_date.getDate() - 1);
+      if(d.date.toString() == yest_date.toString())
+      {
+        ++num_response_yest;
+      }
+    });
+    $("#num_response_yest_n").html(num_response_yest);
+
+    // Get the number of responses for the last week
+    var num_response_this_week = 0;
+    data.forEach(function(d) {
+      var today_date = new Date();
+      var last_week_date = new Date();
+      last_week_date.setDate(last_week_date.getDate() - 7);
+
+      if(d.date >= last_week_date && d.date <= today_date)
+        ++num_response_this_week;
+    });
+    $("#num_response_this_week_n").html(num_response_this_week);
 
     // A nest operator, for grouping the responses to questions
     var nestByDistrict = d3.nest()
@@ -71,61 +88,54 @@ function dashboardChartInit(edata,genre) {
       date = questionaire.dimension(function (d) {
         return d.date;
       }),
-      datesGrp = date.group(d3.time.month),
       question1 = questionaire.dimension(function (d) {
-        if(d.question1 !== "") return d.question1;
+        if(d.question1) return d.question1;
       }),
       question2 = questionaire.dimension(function (d) {
-        if(d.question2 !== "") return d.question2;
+        if(d.question2) return d.question2;
       }),
       question3 = questionaire.dimension(function (d) {
-        if(d.question3 !== "") return d.question3;
+        if(d.question3) return d.question3;
       }),
       question4 = questionaire.dimension(function (d) {
-        if(d.question4 !== "") return d.question4;
-      }),
-      question5 = questionaire.dimension(function (d) {
-        if(d.question5 !== "") return d.question5;
+        if(d.question4) return d.question4;
       }),
       question6 = questionaire.dimension(function (d) {
-        if(d.question6 !== "") return d.question6;
+        if(d.question6) return d.question6;
+      });
+      var q5 = questionaire.dimension(function (d) {
+        if(d.question5) return d.question5;
+      });
+      var extentq5 = d3.extent(q5.top(Infinity), function (d) {
+        return d.question5;
+      });
+      var partitionq5 = 4;
+      var question5 = questionaire.dimension(function (d) {
+        if (d.question5) {
+          var quarter = (extentq5[1] - extentq5[0]) / partitionq5;
+          for (var i=1;i<=partitionq5;i++) {
+            if (d.question5>= (extentq5[0]+(quarter*i))-quarter && d.question5<(extentq5[0]+quarter*i)) {
+              d.range = parseInt((extentq5[0]+(quarter*i))-quarter) + "-" + parseInt(extentq5[0]+quarter*i);
+              return d.range;
+            }
+          }
+        }
       });
 
     // Get the count of facts
-    schoolGroup = types.group().reduceCount(function (d) {
-      return d.types;
-    });
-    numResponsesGroup = date.group(d3.time.month).reduceCount(function (d) {
-      return d.id;
-    });
-    q1Group = question1.group().reduceCount(function (d) {
-      return d.question1;
-    });
-    q2Group = question2.group().reduceCount(function (d) {
-      return d.question2;
-    });
-    q3Group = question3.group().reduceCount(function (d) {
-      return d.question3;
-    });
-    q4Group = question4.group().reduceCount(function (d) {
-      return d.question4;
-    });
-    q6Group = question6.group().reduceCount(function (d) {
-      return d.question6;
-    });
-    districtGroup = district.group().reduceCount(function (d) {
-      return d.id;
-    });
-    genreGroup = district.group().reduceCount(function (d) {
-      return d.genre;
-    });
+    schoolGroup = types.group();
+    numResponsesGroup = date.group(d3.time.month),
+    q1Group = question1.group();
+    q2Group = question2.group();
+    q3Group = question3.group();
+    q4Group = question4.group();
+    q5Group = question5.group();
+    q6Group = question6.group();
+    districtGroup = district.group();
+    genreGroup = district.group();
 
-    var blockGroup = blocks.group().reduceCount(function (d) {
-      return d.blocks;
-    });
-    var clusterGroup = clusters.group().reduceCount(function (d) {
-      return d.clusters;
-    });
+    var blockGroup = blocks.group();
+    var clusterGroup = clusters.group();
 
     // Show onlly pre-school data initially
     genre.filter("preschool");
@@ -159,7 +169,7 @@ function dashboardChartInit(edata,genre) {
     // Get sorted values
     var select_box_options = listBlocksSorted;
     // Target the select dropdown to be filled with options
-    var sel = document.getElementById(SCHOOL_TYPE+'-listBlocksChosen');
+    var sel = document.getElementById('listBlocksChosen');
     // For each block in the list, create an option
     for(var i = 0; i < select_box_options.length; ++i) {
       var opt = document.createElement('option');
@@ -167,8 +177,8 @@ function dashboardChartInit(edata,genre) {
       opt.value = select_box_options[i];
       sel.appendChild(opt);
     }
-    $("#"+SCHOOL_TYPE+"-listBlocksChosen").change(function (d) {
-      var selectBoxArray = $("#"+SCHOOL_TYPE+"-listBlocksChosen").val();
+    $("#listBlocksChosen").change(function (d) {
+      var selectBoxArray = $("#listBlocksChosen").val();
 
       if(selectBoxArray !== null && selectBoxArray !== "select_block") {
         filterBlocks.filter(function (d) {
@@ -183,7 +193,7 @@ function dashboardChartInit(edata,genre) {
     // Fill Cluster dropdown
     select_box_options = listClustersSorted;
     // Target the select dropdown to be filled with options
-    sel = document.getElementById(SCHOOL_TYPE+'-listClustersChosen');
+    sel = document.getElementById('listClustersChosen');
     // For each cluster in the list, create an option
     for(var i = 0; i < select_box_options.length; ++i) {
       var opt = document.createElement('option');
@@ -191,8 +201,8 @@ function dashboardChartInit(edata,genre) {
       opt.value = select_box_options[i];
       sel.appendChild(opt);
     }
-    $("#"+SCHOOL_TYPE+"-listClustersChosen").change(function (d) {
-      var selectBoxArray1 = $("#"+SCHOOL_TYPE+"-listClustersChosen").val();
+    $("#listClustersChosen").change(function (d) {
+      var selectBoxArray1 = $("#listClustersChosen").val();
 
       if(selectBoxArray1 !== null && selectBoxArray1 !== "select_cluster") {
         filterClusters.filter(function (d) {
@@ -204,19 +214,19 @@ function dashboardChartInit(edata,genre) {
       dc.redrawAll();
     });
 
-    // // Show only pre-school data
-    // $("#pre_school").click(function () {
-    //   genre.filterAll();
-    //   genre.filter("preschool");
-    //   dc.redrawAll();
-    // });
+    // Show only pre-school data
+    $("#pre-school").click(function () {
+      genre.filterAll();
+      genre.filter("preschool");
+      dc.redrawAll();
+    });
 
-    // // Show only school data
-    // $("#school").click(function () {
-    //   genre.filterAll();
-    //   genre.filter("school");
-    //   dc.redrawAll();
-    // });
+    // Show only school data
+    $("#school").click(function () {
+      genre.filterAll();
+      genre.filter("school");
+      dc.redrawAll();
+    });
 
     var dates = date.group(d3.time.month).reduceCount(function (d) {
       return d.id;
@@ -225,8 +235,8 @@ function dashboardChartInit(edata,genre) {
     d3.json("/rahul/districts.json", function (error, map_data) {
 
       var projection = d3.geo.mercator()
-        .scale(2200)
-        .translate([-2800, 770]);
+        .scale(2600)
+        .translate([-3360, 870]);
 
       // Draw the state map
       choroplethChart.projection(projection)
@@ -234,10 +244,10 @@ function dashboardChartInit(edata,genre) {
         .height(350)
         .dimension(district)
         .group(districtGroup)
-        .colors(d3.scale.quantize().range(["#E2F2FF", "#C4E4FF", "#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
+        .colors(d3.scale.quantize().range(["#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
         .colorDomain([0, 2000])
         .colorCalculator(function (d) {
-          return d ? choroplethChart.colors()(d) : '#ccc';
+          return d ? choroplethChart.colors()(d) : '#f7f7f7';
         })
         .colorAccessor(function (d, i) {
           return d;
@@ -255,18 +265,18 @@ function dashboardChartInit(edata,genre) {
           bottom: 30,
           left: 50
         })
-        .dimension(id)
+        .dimension(date)
         .gap(1)
-        .group(dates)
-      //.yAxis().ticks(4)
-      .centerBar(true)
-      //.elasticY(true)
-      .xUnits(function () {
-        return 20;
-      })
+        .group(numResponsesGroup)
+        //.yAxis().ticks(4)
+        .centerBar(true)
+        //.elasticY(true)
+        .xUnits(function () {
+          return 20;
+        })
         .x(d3.time.scale()
-          .domain([new Date(2013, 03, 1), new Date()])
-          .rangeRound([0, 1060]))
+        .domain([new Date(2013, 03, 1), new Date()])
+        .rangeRound([0, 1060]))
         .xAxis().ticks(d3.time.month, 3);
 
       // Draw the charts
@@ -332,6 +342,17 @@ function dashboardChartInit(edata,genre) {
             return 'Y';
           else if(d.key == '0')
             return 'N';
+        });
+      question5Chart.width(150)
+        .height(150)
+        .transitionDuration(500)
+        .dimension(question5)
+        .group(q5Group)
+        .radius(70)
+        .minAngleForLabel(0)
+        .label(function (d) {
+          console.log(d);
+          d.key;
         });
       question6Chart.width(150)
         .height(150)

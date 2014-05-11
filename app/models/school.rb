@@ -5,13 +5,13 @@ class School < ActiveRecord::Base
   has_many :responses
   before_save :trim_strings
 
-  def self.seed  
-    School.delete_all  
+  def self.seed
+    School.delete_all
     csv_text = File.read('public/schools2.csv')
-    csv = CSV.parse(csv_text, :headers => true)    
+    csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
       School.create!(row.to_hash)
-    end    
+    end
   end
 
   def trim_strings
