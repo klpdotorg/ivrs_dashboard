@@ -16,7 +16,7 @@
 
         .col-sm-3{style: "margin-top:40px;"}        
           %div#dashboard-info
-            %p#value=@dashboard[:schools_yesterday]
+            %p#value=@dashboard[:pre_schools_week]
             %p#value-info No. of response this week  
 
         .col-sm-6
@@ -60,13 +60,13 @@
                 %th Block
                 %tr
                   %td 
-                    %select#listBlocksChosen{style:"width:150px"}
+                    %select#pre-school-listBlocksChosen{style:"width:150px"}
                       %option{:value => "select_block"} Select Block
                 %tr    
                   %th Cluster
                 %tr  
                   %td 
-                    %select#listClustersChosen{style:"width:150px"}
+                    %select#pre-school-listClustersChosen{style:"width:150px"}
                       %option{:value => "select_cluster"} Select Cluster
 
             .col-sm-3              
@@ -85,7 +85,7 @@
                 #pre-school-question6
       .row
         .col-sm-12
-          %table.table.table-hover{id: "response-list"}
+          %table.table.table-hover{id: "pre-school-response-list"}
             %th Date
             %th Block
             %th Cluster
@@ -98,9 +98,97 @@
             %th Q6
 
   #tab-two.tabs-content
-    %p This is school content
+    .row{style: "margin-top:15px;"}
+      .col-sm-3{style: "margin-top:40px;"}
+        %div#dashboard-info
+          %p#value=@dashboard[:schools_yesterday]
+          %p#value-info No. of response yesterday  
+
+      .col-sm-3{style: "margin-top:40px;"}        
+        %div#dashboard-info
+          %p#value=@dashboard[:schools_yesterday]
+          %p#value-info No. of response this week  
+
+      .col-sm-6
+        %center
+          %strong Number of Responses
+        #school-bar-chart
+    %hr      
+    .row
+      .col-sm-3
+        %center
+          Select District
+        %p
+        #school-map
+          
+      .col-sm-9
+        .row
+          .col-sm-3
+            School type
+            %p
+              #school-type
+
+          .col-sm-3              
+            Question - 1
+            %p
+              #school-question1
+              
+          .col-sm-3              
+            Question - 2
+            %p
+              #school-question2
+
+          .col-sm-3              
+            Question - 3
+            %p
+              #school-question3
+
+        .row
+          .col-sm-3
+            %table.table.table-condensed.table-striped
+              %th Block
+              %tr
+                %td 
+                  %select#school-listBlocksChosen{style:"width:150px"}
+                    %option{:value => "select_block"} Select Block
+              %tr    
+                %th Cluster
+              %tr  
+                %td 
+                  %select#school-listClustersChosen{style:"width:150px"}
+                    %option{:value => "select_cluster"} Select Cluster
+
+          .col-sm-3              
+            Question - 4
+            %p
+              #school-question4
+              
+          .col-sm-3              
+            Question - 5
+            %p
+              %img.img-circle{:alt => "140x140", "data-src" => "holder.js/140x140", :src => "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+", :style => "width: 140px; height: 140px;"}
+
+          .col-sm-3              
+            Question - 6
+            %p
+              #school-question6
+
+    .row
+      .col-sm-12
+        %table.table.table-hover{id: "school-response-list"}
+          %th Date
+          %th Block
+          %th Cluster
+          %th School Name
+          %th Q1
+          %th Q2
+          %th Q3
+          %th Q4
+          %th Q5
+          %th Q6
 
 :javascript
   $(document).ready(function() {
-    dashboardChartInit(#{@dashboard.to_json});
+    dashboardChartInit(#{@dashboard.to_json},"pre");
+    dashboardChartInit(#{@dashboard.to_json},"school");
   });

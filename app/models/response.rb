@@ -30,7 +30,7 @@ class Response < ActiveRecord::Base
   def self.makeDataInChartFormat(responses,type)
     values = []
     responses.each do |response|
-      values << { id: response.id, district: response.school.district.downcase,
+      values << { id: response.id, district: response.school.district.upcase,
                   blocks: response.school.block, clusters: response.school.cluster, 
                   genre: type, school_name: response.school.name, 
                   mobile_no: response.mobile_no, dates: response.date.day,

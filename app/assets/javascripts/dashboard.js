@@ -8,24 +8,28 @@ $(document).ready(function () {
   });
 });
 
-function dashboardChartInit(edata) {
+function dashboardChartInit(edata,genre) {
+  if (genre === "pre") {
+    var SCHOOL_TYPE = "pre-school"
+    var data = edata.pre_school;
+  }else {
+    var SCHOOL_TYPE = "school"
+    var data = edata.schools;
+  }
+  console.log(data,genre)
+  var numResponsesChart = dc.barChart("#"+SCHOOL_TYPE+"-bar-chart");
+  var responsesChartWidth = $("#"+SCHOOL_TYPE+"-bar-chart").width();
+  var choroplethChart = dc.geoChoroplethChart("#"+SCHOOL_TYPE+"-map");
+  var schoolTypeChart = dc.pieChart("#"+SCHOOL_TYPE+"-type");
+  var question1Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question1");
+  var question2Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question2");
+  var question3Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question3");
+  var question4Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question4");
+  var question6Chart = dc.pieChart("#"+SCHOOL_TYPE+"-question6");
+  var dataTable = dc.dataTable("#"+SCHOOL_TYPE+"-response-list");
 
-  var numResponsesChart = dc.barChart("#pre-school-bar-chart");
-  var responsesChartWidth = $("#pre-school-bar-chart").width();
-  var choroplethChart = dc.geoChoroplethChart("#pre-school-map");
-  var schoolTypeChart = dc.pieChart("#pre-school-type");
-  var question1Chart = dc.pieChart("#pre-school-question1");
-  var question2Chart = dc.pieChart("#pre-school-question2");
-  var question3Chart = dc.pieChart("#pre-school-question3");
-  var question4Chart = dc.pieChart("#pre-school-question4");
-  var question6Chart = dc.pieChart("#pre-school-question6");
-  var dataTable = dc.dataTable("#response-list");
-
-  var pre_school = edata.pre_school;
   
-  //console.log(pre_school[0])
   
-    data = pre_school;
     // Let's have a date object for each record from the individual date fields
     data.forEach(function (d, i) {
       d.date = new Date(d.years, d.months - 1, d.dates);
@@ -155,7 +159,7 @@ function dashboardChartInit(edata) {
     // Get sorted values
     var select_box_options = listBlocksSorted;
     // Target the select dropdown to be filled with options
-    var sel = document.getElementById('listBlocksChosen');
+    var sel = document.getElementById(SCHOOL_TYPE+'-listBlocksChosen');
     // For each block in the list, create an option
     for(var i = 0; i < select_box_options.length; ++i) {
       var opt = document.createElement('option');
@@ -163,8 +167,8 @@ function dashboardChartInit(edata) {
       opt.value = select_box_options[i];
       sel.appendChild(opt);
     }
-    $("#listBlocksChosen").change(function (d) {
-      var selectBoxArray = $("#listBlocksChosen").val();
+    $("#"+SCHOOL_TYPE+"-listBlocksChosen").change(function (d) {
+      var selectBoxArray = $("#"+SCHOOL_TYPE+"-listBlocksChosen").val();
 
       if(selectBoxArray !== null && selectBoxArray !== "select_block") {
         filterBlocks.filter(function (d) {
@@ -179,7 +183,7 @@ function dashboardChartInit(edata) {
     // Fill Cluster dropdown
     select_box_options = listClustersSorted;
     // Target the select dropdown to be filled with options
-    sel = document.getElementById('listClustersChosen');
+    sel = document.getElementById(SCHOOL_TYPE+'-listClustersChosen');
     // For each cluster in the list, create an option
     for(var i = 0; i < select_box_options.length; ++i) {
       var opt = document.createElement('option');
@@ -187,8 +191,8 @@ function dashboardChartInit(edata) {
       opt.value = select_box_options[i];
       sel.appendChild(opt);
     }
-    $("#listClustersChosen").change(function (d) {
-      var selectBoxArray1 = $("#listClustersChosen").val();
+    $("#"+SCHOOL_TYPE+"-listClustersChosen").change(function (d) {
+      var selectBoxArray1 = $("#"+SCHOOL_TYPE+"-listClustersChosen").val();
 
       if(selectBoxArray1 !== null && selectBoxArray1 !== "select_cluster") {
         filterClusters.filter(function (d) {
@@ -200,19 +204,19 @@ function dashboardChartInit(edata) {
       dc.redrawAll();
     });
 
-    // Show only pre-school data
-    $("#pre_school").click(function () {
-      genre.filterAll();
-      genre.filter("preschool");
-      dc.redrawAll();
-    });
+    // // Show only pre-school data
+    // $("#pre_school").click(function () {
+    //   genre.filterAll();
+    //   genre.filter("preschool");
+    //   dc.redrawAll();
+    // });
 
-    // Show only school data
-    $("#school").click(function () {
-      genre.filterAll();
-      genre.filter("school");
-      dc.redrawAll();
-    });
+    // // Show only school data
+    // $("#school").click(function () {
+    //   genre.filterAll();
+    //   genre.filter("school");
+    //   dc.redrawAll();
+    // });
 
     var dates = date.group(d3.time.month).reduceCount(function (d) {
       return d.id;
