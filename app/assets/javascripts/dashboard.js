@@ -21,6 +21,23 @@ function dashboardChartInit(data) {
   var question6Chart = dc.pieChart("#question6");
   var dataTable = dc.dataTable("#response-list");
 
+    var extentq5 = d3.extent(data, function (d) {
+      return d.question5;
+    });
+    var partitionq5 = 4;
+    $.map(data, function (d) {
+      if (d.question5) {
+        var quarter = (extentq5[1] - extentq5[0]) / partitionq5;
+        for (var i=1;i<=partitionq5;i++) {
+          if (d.question5>= (extentq5[0]+(quarter*i))-quarter && d.question5<(extentq5[0]+quarter*i)) {
+            d.range = parseInt((extentq5[0]+(quarter*i))-quarter) + "-" + parseInt(extentq5[0]+quarter*i);
+          }
+        }
+      } else {
+        d.range = null;
+      }
+      return d;
+    });
 
 
     // Let's have a date object for each record from the individual date fields
@@ -89,37 +106,22 @@ function dashboardChartInit(data) {
         return d.date;
       }),
       question1 = questionaire.dimension(function (d) {
-        if(d.question1) return d.question1;
+        return d.question1;
       }),
       question2 = questionaire.dimension(function (d) {
-        if(d.question2) return d.question2;
+        return d.question2;
       }),
       question3 = questionaire.dimension(function (d) {
-        if(d.question3) return d.question3;
+        return d.question3;
       }),
       question4 = questionaire.dimension(function (d) {
-        if(d.question4) return d.question4;
+        return d.question4;
+      }),
+      question5 = questionaire.dimension(function (d) {
+        return d.range;
       }),
       question6 = questionaire.dimension(function (d) {
-        if(d.question6) return d.question6;
-      });
-      var q5 = questionaire.dimension(function (d) {
-        if(d.question5) return d.question5;
-      });
-      var extentq5 = d3.extent(q5.top(Infinity), function (d) {
-        return d.question5;
-      });
-      var partitionq5 = 4;
-      var question5 = questionaire.dimension(function (d) {
-        if (d.question5) {
-          var quarter = (extentq5[1] - extentq5[0]) / partitionq5;
-          for (var i=1;i<=partitionq5;i++) {
-            if (d.question5>= (extentq5[0]+(quarter*i))-quarter && d.question5<(extentq5[0]+quarter*i)) {
-              d.range = parseInt((extentq5[0]+(quarter*i))-quarter) + "-" + parseInt(extentq5[0]+quarter*i);
-              return d.range;
-            }
-          }
-        }
+        return d.question6;
       });
 
     // Get the count of facts
