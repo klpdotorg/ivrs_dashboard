@@ -8,7 +8,7 @@ $(document).ready(function () {
   });
 });
 
-function dashboardChartInit(data) {
+function dashboardChartInit(data,all_questions) {
   var numResponsesChart = dc.barChart("#bar-chart");
   var responsesChartWidth = $("#bar-chart").width();
   var choroplethChart = dc.geoChoroplethChart("#map");
@@ -140,6 +140,7 @@ function dashboardChartInit(data) {
 
     // Show onlly pre-school data initially
     genre.filter("preschool");
+    getQuestionNameByGenre("Preschools");
 
     // Get unique list of blocks
     var listBlocksSorted = blockGroup.all()
@@ -220,6 +221,7 @@ function dashboardChartInit(data) {
       genre.filterAll();
       genre.filter("preschool");
       dc.redrawAll();
+      getQuestionNameByGenre("Preschools");
     });
 
     // Show only school data
@@ -227,7 +229,20 @@ function dashboardChartInit(data) {
       genre.filterAll();
       genre.filter("school");
       dc.redrawAll();
+      getQuestionNameByGenre("Schools");
     });
+
+    function getQuestionNameByGenre(genre) {
+      var counter = 1;
+      for(i in all_questions) {        
+        if (all_questions[i].genre == genre) {
+          $("#qt"+counter).html(all_questions[i].name);
+          counter++;
+        }
+      }
+    }
+
+
 
     var dates = date.group(d3.time.month).reduceCount(function (d) {
       return d.id;

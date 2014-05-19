@@ -40,17 +40,20 @@
                 #type
 
             .col-sm-3
-              Question - 1
+              #qt1
+                Question - 1
               %p
                 #question1
 
             .col-sm-3
-              Question - 2
+              #qt2
+                Question - 2
               %p
                 #question2
 
             .col-sm-3
-              Question - 3
+              #qt3
+                Question - 3
               %p
                 #question3
 
@@ -70,17 +73,20 @@
                       %option{:value => "select_cluster"} Select Cluster
 
             .col-sm-3
-              Question - 4
+              #qt4
+                Question - 4
               %p
                 #question4
 
             .col-sm-3
-              Question - 5
+              #qt5
+                Question - 5
               %p
                 #question5
 
             .col-sm-3
-              Question - 6
+              #qt6
+                Question - 6
               %p
                 #question6
       .row
@@ -99,5 +105,5 @@
 
 :javascript
   $(document).ready(function() {
-    dashboardChartInit(#{@dashboard.to_json});
+    dashboardChartInit(#{@dashboard.to_json},#{@questions.to_json});
   });
