@@ -90,4 +90,19 @@ class Response < ActiveRecord::Base
     self.mobile_no = self.mobile_no.strip
   end
 
+  def self.getYesterdayData
+    fr_dt = (Date.today - 1).strftime("%m/%d/%Y")
+    to_dt = fr_dt
+    iopen = open("http://202.83.16.183:85/akshara/json_feeds.php?fromdate=#{fr_dt}&enddate=#{to_dt}").read
+    
+    unless iopen == "null"
+      results = JSON.parse(iopen)
+      results.each do |result|
+        Response.create(mobile_no: result['Mobile Number'], school_id: result['School ID'],
+        date: result['Date & Time'], a1: result['1'], a2: result['2'], a3: result['3'],
+        a4: result['4'], a5: result['5'], a6: result['6'])
+      end      
+    end
+  end
+
 end

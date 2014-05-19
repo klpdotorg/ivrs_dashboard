@@ -9,6 +9,7 @@ gem 'friendly_id', "~> 4.0.1"
 gem 'gon'
 gem 'jbuilder'
 gem 'tinymce-rails'
+gem 'whenever'
 
 # User Interface
 group :assets do
