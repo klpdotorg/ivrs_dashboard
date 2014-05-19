@@ -44,7 +44,37 @@ class Response < ActiveRecord::Base
                 }
 
     end
-    values
+    values = Response.getQuaterValues(values)
+  end
+
+  def self.getQuaterValues(data)
+    max = 0
+    min = 1
+    paq = 4
+    tmp = []
+    
+    data.each do |d|
+      unless d[:question5].nil?
+        if d[:question5] > max
+          max = d[:question5]
+        end
+      end
+    end
+    
+    data.each do |d|
+      d[:range] = nil
+      unless d[:question5].nil?
+        quarter = ((max - min) / paq)        
+        for v in 1..max
+          if d[:question5] >= ((min+(quarter*v))-quarter) and d[:question5] < (max+quarter)*v
+            d[:range] = ((min+(quarter*v))-quarter).to_s + "-" + ((min+quarter)*v).to_s
+          end
+        end
+
+      end
+      tmp << d
+    end
+    tmp
   end
 
   def self.seed
@@ -54,7 +84,7 @@ class Response < ActiveRecord::Base
     csv.each do |row|
       Response.create!(row.to_hash)
     end
-  end
+  end  
 
   def trim_strings
     self.mobile_no = self.mobile_no.strip
