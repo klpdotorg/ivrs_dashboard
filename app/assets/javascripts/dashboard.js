@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('.tabs .tabs-content').removeClass('current');
     $(this).addClass('current');
     $("#" + tab_id).addClass('current');
-  });
+  });   
 });
 
 function dashboardChartInit(data,all_questions) {
@@ -141,6 +141,7 @@ function dashboardChartInit(data,all_questions) {
     // Show onlly pre-school data initially
     genre.filter("preschool");
     getQuestionNameByGenre("Preschools");
+    window.genre = "preschool";
 
     // Get unique list of blocks
     var listBlocksSorted = blockGroup.all()
@@ -190,6 +191,7 @@ function dashboardChartInit(data,all_questions) {
         filterBlocks.filterAll();
       }
       dc.redrawAll();
+      
     });
 
     // Fill Cluster dropdown
@@ -214,23 +216,9 @@ function dashboardChartInit(data,all_questions) {
         filterClusters.filterAll();
       }
       dc.redrawAll();
+
     });
 
-    // Show only pre-school data
-    $("#pre-school").click(function () {
-      genre.filterAll();
-      genre.filter("preschool");
-      dc.redrawAll();
-      getQuestionNameByGenre("Preschools");
-    });
-
-    // Show only school data
-    $("#school").click(function () {
-      genre.filterAll();
-      genre.filter("school");
-      dc.redrawAll();
-      getQuestionNameByGenre("Schools");
-    });
 
     function getQuestionNameByGenre(genre) {
       var counter = 1;
@@ -241,7 +229,6 @@ function dashboardChartInit(data,all_questions) {
         }
       }
     }
-
 
 
     var dates = date.group(d3.time.month).reduceCount(function (d) {
@@ -302,11 +289,8 @@ function dashboardChartInit(data,all_questions) {
         .dimension(types)
         .group(schoolGroup)
         .radius(70)
-        .minAngleForLabel(0)
-        .label(function (d) {
-          //console.log(d);
-          return d.key;
-        });
+        .legend(dc.legend().x(10).y(160).gap(5));
+
       question1Chart.width(150)
         .height(150)
         .transitionDuration(500)
@@ -445,8 +429,9 @@ function dashboardChartInit(data,all_questions) {
         })
         .order(d3.ascending);
 
-      dc.renderAll();      
+      dc.renderAll();
 
+      $(".dc-legend").css("visibility","hidden");
     });
   
   $("<h2 style='text-transform:initial;margin-top:20px;'><a id='reset-all' href='javascript:dc.filterAll();dc.redrawAll();' style='margin-top:20px;'>Reset all</a></h2>").appendTo("#select-list")
@@ -458,4 +443,38 @@ function dashboardChartInit(data,all_questions) {
     $('#listClustersChosen').trigger("change");
 
   });
+
+    // Show only pre-school data
+    $("#pre-school").click(function () {
+      genre.filterAll();
+      genre.filter("preschool");
+      dc.redrawAll();
+      getQuestionNameByGenre("Preschools");
+      $("#type svg").attr("height",150);
+      window.genre = "preschool";
+
+      schoolTypeChart.height(150);
+      $(".dc-legend").css("visibility","hidden");
+
+    });
+
+    // Show only school data
+    $("#school").click(function () {
+      genre.filterAll();
+      genre.filter("school");
+      dc.redrawAll();
+      getQuestionNameByGenre("Schools");
+      $("#type svg").attr("height",275);
+      window.genre = "schools";
+
+
+
+        $(".dc-legend").css("visibility","visibile");
+
+        //.legend(dc.legend().x(140).y(0).gap(5).horizontal(true));
+     
+
+    });
+
+
 }
