@@ -139,9 +139,9 @@ function dashboardChartInit(data,all_questions) {
     var clusterGroup = clusters.group();
 
     // Show onlly pre-school data initially
-    genre.filter("preschool");
-    getQuestionNameByGenre("Preschools");
-    window.genre = "preschool";
+    genre.filter("school");
+    getQuestionNameByGenre("Schools");
+    
 
     // Get unique list of blocks
     var listBlocksSorted = blockGroup.all()
@@ -283,7 +283,7 @@ function dashboardChartInit(data,all_questions) {
 
       // Draw the charts
       schoolTypeChart.width(150)
-        .height(150)
+        .height(275)
         .transitionDuration(500)
         .dimension(types)
         .group(schoolGroup)
@@ -430,7 +430,7 @@ function dashboardChartInit(data,all_questions) {
 
       dc.renderAll();
 
-      $(".dc-legend").css("visibility","hidden");
+      d3.select("#type g").attr("transform","translate(75,70)")
     });
   
   $("<h2 style='text-transform:initial;margin-top:20px;'><a id='reset-all' href='javascript:dc.filterAll();dc.redrawAll();' style='margin-top:20px;'>Reset all</a></h2>").appendTo("#select-list")
