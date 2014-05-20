@@ -76,3 +76,7 @@ svg path, select {
   stroke: none;
   fill-opacity: .2;
 }
+
+.dc-table-group {
+  display: none;
+}

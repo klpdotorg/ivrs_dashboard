@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title Akshara Dashboard
+    %title IVRS Dashboard 
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -18,18 +18,18 @@
           %nav.nav
             %ul
               %li
-                %a{:href => "", :title => ""} About
+                %a{:href => "http://klp.org.in/text/aboutus", :title => "", :target => "_blank"} About
               %li
-                %a{:href => "", :title => ""} Press
-              %li
-                %a{:href => "", :title => ""} Contact
+                %a{:href => "mailto:team@klp.org.in", :title => ""} Contact
               %li.hidden-phone.hidden-tablet
-                %a{:href => "", :title => ""} School Map
+                %a{:href => "http://www.facebook.com/klpdotorg", :target => "_blank"} Facebook
               %li.hidden-phone.hidden-tablet
-                %a{:href => "", :title => ""} Programmes
+                %a{:href => "https://twitter.com/KLPsays", :target => "_blank"} Twitter
               %li.hidden-phone.hidden-tablet
-                %a{:href => "", :title => ""} Databases
+                %a{:href => "http://blog.klp.org.in/feeds/posts/default", :target => "_blank"} RSS Feed
               %li.hidden-phone.hidden-tablet
-                %a{:href => "", :title => ""} Reports
+                %a{:href => "http://www.youtube.com/user/klpdotorg", :target => "_blank"} You Tube
+              %li.hidden-phone.hidden-tablet
+                %a{:href => "http://klp.org.in/map", :title => "", :target => "_blank"} School Map
               .clr
-          .copyright Copyright 2014. All Rights Reserved.      
+          .copyright Copyright 2013. All Rights Reserved.

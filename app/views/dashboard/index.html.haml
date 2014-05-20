@@ -1,7 +1,7 @@
 .page-section-heading
   .container
     #section_header.heading
-      %h2 Dashboard
+      %h2 IVRS Dashboard 
 .tabs
   %ul.tabs-nav
     %li.current{"data-tab" => "tab-one", id: "pre-school"} Pre school
@@ -92,16 +92,18 @@
       .row
         .col-sm-12
           %table.table.table-hover{id: "response-list"}
-            %th Date
-            %th Block
-            %th Cluster
-            %th School Name
-            %th Q1
-            %th Q2
-            %th Q3
-            %th Q4
-            %th Q5
-            %th Q6
+            %thead
+              %tr.header
+                %th Date
+                %th Block
+                %th Cluster
+                %th School Name
+                %th Q1
+                %th Q2
+                %th Q3
+                %th Q4
+                %th Q5
+                %th Q6
 
 :javascript
   $(document).ready(function() {

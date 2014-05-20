@@ -385,9 +385,11 @@ function dashboardChartInit(data,all_questions) {
             return 'C';
         });
 
+      var header_table = ["Date", "Block", "Cluster", "School", "Q1", "Q2", "Q3", "Q4", "Q5", "Q6"]
+      var counter = 0;
       dataTable.dimension(date)
         .group(function (d) {
-          return ""
+          return "";
         })
         .size(40) // number of rows
       .columns([
@@ -442,7 +444,7 @@ function dashboardChartInit(data,all_questions) {
         })
         .order(d3.ascending);
 
-      dc.renderAll();
+      dc.renderAll();      
 
     });
 
