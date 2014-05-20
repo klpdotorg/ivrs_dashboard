@@ -2,6 +2,10 @@
   .container
     #section_header.heading
       %h2 IVRS Dashboard 
+.pull-right
+  %strong
+    Last updated : 
+  = @last_updated      
 .tabs
   %ul.tabs-nav
     %li.current{"data-tab" => "tab-one", id: "pre-school"} Pre school

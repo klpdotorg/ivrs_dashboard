@@ -103,6 +103,12 @@ class Response < ActiveRecord::Base
         a4: result['4'], a5: result['5'], a6: result['6'])
       end      
     end
+
+    File.open("public/last-update.txt", File::CREAT | File::RDWR) do |file|
+      file.write(Time.now)
+      file.close
+    end
+
   end
 
 end
