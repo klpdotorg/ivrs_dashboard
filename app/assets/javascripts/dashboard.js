@@ -390,6 +390,7 @@ function dashboardChartInit(data,all_questions) {
       dataTable.dimension(date)
         .group(function (d) {
           return "";
+
         })
         .size(40) // number of rows
       .columns([
@@ -447,5 +448,14 @@ function dashboardChartInit(data,all_questions) {
       dc.renderAll();      
 
     });
+  
+  $("<h2 style='text-transform:initial;margin-top:20px;'><a id='reset-all' href='javascript:dc.filterAll();dc.redrawAll();' style='margin-top:20px;'>Reset all</a></h2>").appendTo("#select-list")
 
+  $("#reset-all").click(function() {
+    $('#listBlocksChosen option:first-child').attr("selected", "selected");
+    $('#listClustersChosen option:first-child').attr("selected", "selected");
+    $('#listBlocksChosen').trigger("change");
+    $('#listClustersChosen').trigger("change");
+
+  });
 }
