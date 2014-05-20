@@ -6,8 +6,7 @@ class Response < ActiveRecord::Base
 
   #SCOPES
   scope :yesterday_count, -> genre { includes(:school).where("#{genre} AND responses.date = '#{Date.today - 1}'")}
-  scope :week_count, -> genre { includes(:school).where("#{genre} AND responses.date BETWEEN '#{Date.today - 7}' AND '#{Date.today}'")}
-
+  scope :all_count, -> genre { includes(:school).where("#{genre}")}
 
   def self.hashToCSV(responses)
     column_names = ['id', 'district', 'blocks', 'clusters', 'genre', 'types', 'school_name',

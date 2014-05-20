@@ -45,28 +45,28 @@ function dashboardChartInit(data,all_questions) {
     });
 
     // Get the number of responses for yesterday
-    var num_response_yest = 0;
-    data.forEach(function(d) {
-      var yest_date = new Date();
-      yest_date.setDate(yest_date.getDate() - 1);
-      if(d.date.toString() == yest_date.toString())
-      {
-        ++num_response_yest;
-      }
-    });
-    $("#num_response_yest_n").html(num_response_yest);
+    // var num_response_yest = 0;
+    // data.forEach(function(d) {
+    //   var yest_date = new Date();
+    //   yest_date.setDate(yest_date.getDate() - 1);
+    //   if(d.date.toString() == yest_date.toString())
+    //   {
+    //     ++num_response_yest;
+    //   }
+    // });
+    // $("#num_response_yest_n").html(num_response_yest);
 
     // Get the number of responses for the last week
-    var num_response_this_week = 0;
-    data.forEach(function(d) {
-      var today_date = new Date();
-      var last_week_date = new Date();
-      last_week_date.setDate(last_week_date.getDate() - 7);
+    // var num_response_this_week = 0;
+    // data.forEach(function(d) {
+    //   var today_date = new Date();
+    //   var last_week_date = new Date();
+    //   last_week_date.setDate(last_week_date.getDate() - 7);
 
-      if(d.date >= last_week_date && d.date <= today_date)
-        ++num_response_this_week;
-    });
-    $("#num_response_this_week_n").html(num_response_this_week);
+    //   if(d.date >= last_week_date && d.date <= today_date)
+    //     ++num_response_this_week;
+    // });
+    // $("#num_response_this_week_n").html(num_response_this_week);
 
     // A nest operator, for grouping the responses to questions
     var nestByDistrict = d3.nest()
@@ -218,7 +218,6 @@ function dashboardChartInit(data,all_questions) {
       dc.redrawAll();
 
     });
-
 
     function getQuestionNameByGenre(genre) {
       var counter = 1;
@@ -452,10 +451,12 @@ function dashboardChartInit(data,all_questions) {
       getQuestionNameByGenre("Preschools");
       $("#type svg").attr("height",150);
       window.genre = "preschool";
-
       schoolTypeChart.height(150);
       $(".dc-legend").css("visibility","hidden");
 
+      $("#num_response_yest_n").html(stat_value['pre_yest']);
+      $("#num_response_this_week_n").html(stat_value['pre_count']);
+      
     });
 
     // Show only school data
@@ -466,13 +467,9 @@ function dashboardChartInit(data,all_questions) {
       getQuestionNameByGenre("Schools");
       $("#type svg").attr("height",275);
       window.genre = "schools";
-
-
-
-        $(".dc-legend").css("visibility","visibile");
-
-        //.legend(dc.legend().x(140).y(0).gap(5).horizontal(true));
-     
+      $(".dc-legend").css("visibility","visibile");    
+      $("#num_response_yest_n").html(stat_value['sch_yest']);
+      $("#num_response_this_week_n").html(stat_value['sch_count']);
 
     });
 

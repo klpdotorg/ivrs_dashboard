@@ -15,13 +15,15 @@
       .row{style: "margin-top:15px;"}
         .col-sm-3{style: "margin-top:40px;"}
           %div#dashboard-info
-            %p#num_response_yest_n.value=0
+            %p#num_response_yest_n.value
+              =@stat_value['pre_yest']
             %p#value-info No. of response yesterday
 
         .col-sm-3{style: "margin-top:40px;"}
           %div#dashboard-info
-            %p#num_response_this_week_n.value=0
-            %p#value-info No. of response this week
+            %p#num_response_this_week_n.value
+              =@stat_value["pre_count"]
+            %p#value-info Total Responses
 
         .col-sm-6
           %center
@@ -111,5 +113,6 @@
 
 :javascript
   $(document).ready(function() {
+    stat_value = #{@stat_value.to_json};
     dashboardChartInit(#{@dashboard.to_json},#{@questions.to_json});
   });
