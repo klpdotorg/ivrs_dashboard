@@ -5,6 +5,16 @@ $(document).ready(function () {
     $('.tabs .tabs-content').removeClass('current');
     $(this).addClass('current');
     $("#" + tab_id).addClass('current');
+    var i_id = $(this).attr("id");
+
+    if (i_id === "pre-school") {
+      $("#block-select").html('Project');
+      $("#cluster-select").html('Circle');
+    }else {
+      $("#block-select").html('Block');
+      $("#cluster-select").html('Cluster');
+    }
+
   });   
 });
 
@@ -276,6 +286,12 @@ function dashboardChartInit(data,all_questions) {
         .xUnits(function () {
           return 20;
         })
+        .brushOn(true)        
+        .title(function(d){
+          console.log(d,"ssss");
+        })
+        .elasticY(true)
+
         .x(d3.time.scale()
         .domain([new Date(2013, 03, 1), new Date()])
         .rangeRound([0, 1060]))
@@ -440,38 +456,37 @@ function dashboardChartInit(data,all_questions) {
     $('#listClustersChosen option:first-child').attr("selected", "selected");
     $('#listBlocksChosen').trigger("change");
     $('#listClustersChosen').trigger("change");
-
   });
 
-    // Show only pre-school data
-    $("#pre-school").click(function () {
-      genre.filterAll();
-      genre.filter("preschool");
-      dc.redrawAll();
-      getQuestionNameByGenre("Preschools");
-      $("#type svg").attr("height",150);
-      window.genre = "preschool";
-      schoolTypeChart.height(150);
-      $(".dc-legend").css("visibility","hidden");
-
-      $("#num_response_yest_n").html(stat_value['pre_yest']);
-      $("#num_response_this_week_n").html(stat_value['pre_count']);
-      
-    });
-
-    // Show only school data
-    $("#school").click(function () {
-      genre.filterAll();
-      genre.filter("school");
-      dc.redrawAll();
-      getQuestionNameByGenre("Schools");
-      $("#type svg").attr("height",275);
-      window.genre = "schools";
-      $(".dc-legend").css("visibility","visibile");    
-      $("#num_response_yest_n").html(stat_value['sch_yest']);
-      $("#num_response_this_week_n").html(stat_value['sch_count']);
-
-    });
-
-
 }
+
+// Show only pre-school data
+$("#pre-school").click(function () {
+  alert("sssss");
+  genre.filterAll();
+  genre.filter("preschool");
+  dc.redrawAll();
+  getQuestionNameByGenre("Preschools");
+  $("#type svg").attr("height",150);
+  window.genre = "preschool";
+  schoolTypeChart.height(150);
+  $(".dc-legend").css("visibility","hidden");
+
+  $("#num_response_yest_n").html(stat_value['pre_yest']);
+  $("#num_response_this_week_n").html(stat_value['pre_count']);
+  
+});
+
+// Show only school data
+$("#school").click(function () {
+  genre.filterAll();
+  genre.filter("school");
+  dc.redrawAll();
+  getQuestionNameByGenre("Schools");
+  $("#type svg").attr("height",275);
+  window.genre = "schools";
+  $(".dc-legend").css("visibility","visibile");    
+  $("#num_response_yest_n").html(stat_value['sch_yest']);
+  $("#num_response_this_week_n").html(stat_value['sch_count']);
+
+});

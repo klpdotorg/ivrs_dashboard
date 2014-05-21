@@ -66,17 +66,17 @@
           .row
             .col-sm-3
               %table.table.table-condensed.table-striped#select-list
-                %th Block
+                %th#block-select Block
                 %tr
                   %td
                     %select#listBlocksChosen{style:"width:150px"}
-                      %option{:value => "select_block"} Select Block
+                      %option{:value => "select_block"} Select none
                 %tr
-                  %th Cluster
+                  %th#cluster-select Cluster
                 %tr
                   %td
                     %select#listClustersChosen{style:"width:150px"}
-                      %option{:value => "select_cluster"} Select Cluster                     
+                      %option{:value => "select_cluster"} Select none
 
             .col-sm-3
               #qt4
