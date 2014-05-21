@@ -371,8 +371,15 @@ function dashboardChartInit(data,all_questions) {
       .label(function (d) {
         if(d.key == '1')
           return 'Y';
-        else if(d.key == '0')
+        else if(d.key == '0')console
           return 'N';
+      })
+      .title(function(d) {
+        if (d.key === 1) {
+          return "Yes: " + d.value;
+        }else {
+          return "No: " + d.value;
+        }
       });
     question2Chart.width(150)
       .height(150)
@@ -386,7 +393,15 @@ function dashboardChartInit(data,all_questions) {
           return 'Y';
         else if(d.key == '0')
           return 'N';
+      })
+      .title(function(d) {
+        if (d.key === 1) {
+          return "Yes: " + d.value;
+        }else {
+          return "No: " + d.value;
+        }
       });
+
     question3Chart.width(150)
       .height(150)
       .transitionDuration(500)
@@ -399,7 +414,15 @@ function dashboardChartInit(data,all_questions) {
           return 'Y';
         else if(d.key == '0')
           return 'N';
+      })
+      .title(function(d) {
+        if (d.key === 1) {
+          return "Yes: " + d.value;
+        }else {
+          return "No: " + d.value;
+        }
       });
+
     question4Chart.width(150)
       .height(150)
       .transitionDuration(500)
@@ -412,7 +435,15 @@ function dashboardChartInit(data,all_questions) {
           return 'Y';
         else if(d.key == '0')
           return 'N';
+      })
+      .title(function(d) {
+        if (d.key === 1) {
+          return "Yes: " + d.value;
+        }else {
+          return "No: " + d.value;
+        }
       });
+
 
     question5Chart.width(150)
       .height(150)
@@ -422,7 +453,7 @@ function dashboardChartInit(data,all_questions) {
       .radius(70)
       .minAngleForLabel(0)
       .label(function (d) {
-        d.key;
+        //return d.key;
       });
     question5sChart.width(150)
       .height(150)
@@ -432,8 +463,20 @@ function dashboardChartInit(data,all_questions) {
       .radius(70)
       .minAngleForLabel(0)
       .label(function (d) {
-        d.key;
+        if(d.key == '1')
+          return 'Y';
+        else if(d.key == '0')
+          return 'N';
+
+      })
+      .title(function(d) {
+        if (d.key === 1) {
+          return "Yes: " + d.value;
+        }else {
+          return "No: " + d.value;
+        }
       });
+
 
     question6Chart.width(150)
       .height(150)
@@ -449,7 +492,16 @@ function dashboardChartInit(data,all_questions) {
           return 'B';
         else if(d.key == '3')
           return 'C';
+      })
+      .title(function(d) {
+        if(d.key == '1')
+          return 'A: ' + d.value;
+        else if(d.key == '2')
+          return 'B: ' + d.value;
+        else if(d.key == '3')
+          return 'C: ' + d.value;
       });
+
 
     var counter = 0;
     dataTable.dimension(date).group(function (d) { return ""; })
@@ -540,6 +592,17 @@ function dashboardChartInit(data,all_questions) {
 
     d3.select("#type g").attr("transform","translate(75,70)")
     d3.selectAll("#map .district path").attr("data-state",function(d) { return d.properties.DISTSHP.toLowerCase();})
+
+    // var counter = 10;
+    // d3.selectAll("#question5 text")  
+    //         .style("text-anchor", "end")
+    //         .attr("transform", function(d) {
+    //             console.log($(this).attr("transform"))
+
+    //             counter += 30;
+    //             console.log(counter,"===");
+    //             return "rotate(-"+counter+")" 
+    //             });    
 
   });
   
