@@ -6,18 +6,22 @@ $(document).ready(function () {
     $(this).addClass('current');
     $("#" + tab_id).addClass('current');
     var i_id = $(this).attr("id");
-
+    
     if (i_id === "pre-school") {
       $("#block-select").html('Project');
       $("#cluster-select").html('Circle');
       $("#table-block-header").html('Project');
       $("#table-cluster-header").html('Circle');
       blockDataByGenre("preschool");
+      $("#question5s").hide();
+      $("#question5").show();
     }else {
       $("#block-select").html('Block');
       $("#cluster-select").html('Cluster');
       $("#table-block-header").html('Block');
       $("#table-cluster-header").html('Cluster');
+      $("#question5s").show();
+      $("#question5").hide();      
       blockDataByGenre("school");
     }
   });
@@ -90,6 +94,7 @@ function dashboardChartInit(data,all_questions) {
   var question3Chart = dc.pieChart("#question3");
   var question4Chart = dc.pieChart("#question4");
   var question5Chart = dc.pieChart("#question5");
+  var question5sChart = dc.pieChart("#question5s");
   var question6Chart = dc.pieChart("#question6");
   var dataTable = dc.dataTable("#response-list");
 
@@ -150,6 +155,9 @@ function dashboardChartInit(data,all_questions) {
     question5 = questionaire.dimension(function (d) {
       return d.range;
     }),
+    question5s = questionaire.dimension(function (d) {
+      return d.question5;
+    }),
     question6 = questionaire.dimension(function (d) {
       return d.question6;
     });
@@ -162,6 +170,7 @@ function dashboardChartInit(data,all_questions) {
   q3Group = question3.group();
   q4Group = question4.group();
   q5Group = question5.group();
+  q5sGroup = question5s.group();
   q6Group = question6.group();
   districtGroup = district.group();
   genreGroup = district.group();
@@ -317,7 +326,6 @@ function dashboardChartInit(data,all_questions) {
         return d;
       })
       .overlayGeoJson(map_data.features, "district", function (d) {
-        //console.log(d);
         return d.properties.dist_name;
       });
 
@@ -405,6 +413,7 @@ function dashboardChartInit(data,all_questions) {
         else if(d.key == '0')
           return 'N';
       });
+
     question5Chart.width(150)
       .height(150)
       .transitionDuration(500)
@@ -415,6 +424,17 @@ function dashboardChartInit(data,all_questions) {
       .label(function (d) {
         d.key;
       });
+    question5sChart.width(150)
+      .height(150)
+      .transitionDuration(500)
+      .dimension(question5s)
+      .group(q5sGroup)
+      .radius(70)
+      .minAngleForLabel(0)
+      .label(function (d) {
+        d.key;
+      });
+
     question6Chart.width(150)
       .height(150)
       .transitionDuration(500)
@@ -463,19 +483,48 @@ function dashboardChartInit(data,all_questions) {
         });
       },
       function (d) {
-        return d.question1;
+        if (d.question1 > 0) {
+          return "Y";
+        }else {
+          return "N";
+        }
       },
       function (d) {
-        return d.question2;
+        if (d.question2 > 0) {
+          return "Y";
+        }else {
+          return "N";
+        }
       },
       function (d) {
-        return d.question3;
+        if (d.question3 > 0) {
+          return "Y";
+        }else {
+          return "N";
+        }
+
       },
       function (d) {
-        return d.question4;
+        if (d.question4 > 0) {
+          return "Y";
+        }else {
+          return "N";
+        }
+
       },
-      function (d) {
-        return d.question5;
+      function (d) {        
+        var tt = $('.tabs ul.tabs-nav li.current').attr("id")
+        if (tt !== "pre-school") {
+          if (d.question5 > 0) {
+            return "Y";
+          }else {
+            return "N";           
+          }
+        }else {
+          return d.question5;  
+        }
+
+        
       },
       function (d) {
         return d.question6;
@@ -487,9 +536,11 @@ function dashboardChartInit(data,all_questions) {
       .order(d3.ascending);
 
     dc.renderAll();
+    $("#question5").hide();
 
     d3.select("#type g").attr("transform","translate(75,70)")
     d3.selectAll("#map .district path").attr("data-state",function(d) { return d.properties.DISTSHP.toLowerCase();})
+
   });
   
   $("<a id='reset-all' href='javascript:dc.filterAll();dc.redrawAll();' style='margin-top:0px;'>Reset all</a>").appendTo("#reset-link");

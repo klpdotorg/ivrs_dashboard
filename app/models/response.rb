@@ -102,7 +102,6 @@ class Response < ActiveRecord::Base
             d[:range] = ((min+(quarter*v))-quarter).to_s + "-" + ((min+quarter)*v).to_s
           end
         end
-
       end
       tmp << d
     end
