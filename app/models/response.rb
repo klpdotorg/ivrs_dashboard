@@ -64,7 +64,7 @@ class Response < ActiveRecord::Base
       end
 
 
-      if counter > 4 # this for complete responses
+      if counter > 3 # this for complete responses
 
         values << { id: response.id, district: response.school.district.upcase,
                     blocks: response.school.block, clusters: response.school.cluster,
