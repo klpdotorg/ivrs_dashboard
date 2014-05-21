@@ -29,19 +29,52 @@ class Response < ActiveRecord::Base
   def self.makeDataInChartFormat(responses)
     values = []
     responses.each do |response|
+      
       type = 'school'
       if response.school.genre == "Anganwadi"
         type = "preschool"
       end
-      values << { id: response.id, district: response.school.district.upcase,
-                  blocks: response.school.block, clusters: response.school.cluster,
-                  genre: type, school_name: response.school.name,
-                  mobile_no: response.mobile_no, dates: response.date.day,
-                  months: response.date.month, years: response.date.year, types: response.school.genre,
-                  question1: response.a1, question2: response.a2, question3: response.a3,
-                  question4: response.a4, question5: response.a5, question6: response.a6
-                }
+      counter = 0
+      unless response.a1.nil?
+        counter += response.a1  
+      end
 
+      unless response.a2.nil?
+        counter += response.a2
+      end
+
+      unless response.a3.nil?
+        counter += response.a3
+      end
+
+      unless response.a4.nil?
+        counter += response.a4
+      end
+
+      unless response.a5.nil?
+        if response.a5 > 0 
+          counter += 1
+        end
+      end
+      
+      unless response.a6.nil?
+        if response.a6 > 0 
+          counter += 1
+        end
+      end
+
+
+      if counter > 4 # this for complete responses
+
+        values << { id: response.id, district: response.school.district.upcase,
+                    blocks: response.school.block, clusters: response.school.cluster,
+                    genre: type, school_name: response.school.name,
+                    mobile_no: response.mobile_no, dates: response.date.day,
+                    months: response.date.month, years: response.date.year, types: response.school.genre,
+                    question1: response.a1, question2: response.a2, question3: response.a3,
+                    question4: response.a4, question5: response.a5, question6: response.a6
+                  }
+      end
     end
     values = Response.getQuaterValues(values)
   end

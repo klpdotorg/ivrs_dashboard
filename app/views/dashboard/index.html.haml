@@ -42,26 +42,50 @@
           .row
             .col-sm-3
               School type
-              %p
-                #type
 
             .col-sm-3
               #qt1
                 Question - 1
-              %p
-                #question1
 
             .col-sm-3
               #qt2
                 Question - 2
-              %p
-                #question2
 
             .col-sm-3
               #qt3
                 Question - 3
+
+          .row
+            .col-sm-3
+              %p
+                #type
+
+            .col-sm-3
+              %p
+                #question1
+
+            .col-sm-3
+              %p
+                #question2
+
+            .col-sm-3
               %p
                 #question3
+
+          .row
+            .col-sm-3
+              #reset-link
+            .col-sm-3
+              #qt4
+                Question - 4
+
+            .col-sm-3
+              #qt5
+                Question - 5
+
+            .col-sm-3
+              #qt6
+                Question - 6
 
           .row
             .col-sm-3
@@ -79,20 +103,14 @@
                       %option{:value => "select_cluster"} Select none
 
             .col-sm-3
-              #qt4
-                Question - 4
               %p
                 #question4
 
             .col-sm-3
-              #qt5
-                Question - 5
               %p
                 #question5
 
             .col-sm-3
-              #qt6
-                Question - 6
               %p
                 #question6
       .row
@@ -114,5 +132,6 @@
 :javascript
   $(document).ready(function() {
     stat_value = #{@stat_value.to_json};
-    dashboardChartInit(#{@dashboard.to_json},#{@questions.to_json});
+    ruby_data = #{@dashboard.to_json};
+    dashboardChartInit(ruby_data,#{@questions.to_json});
   });
