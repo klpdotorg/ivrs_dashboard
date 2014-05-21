@@ -10,10 +10,14 @@ $(document).ready(function () {
     if (i_id === "pre-school") {
       $("#block-select").html('Project');
       $("#cluster-select").html('Circle');
+      $("#table-block-header").html('Project');
+      $("#table-cluster-header").html('Circle');
       blockDataByGenre("preschool");
     }else {
       $("#block-select").html('Block');
       $("#cluster-select").html('Cluster');
+      $("#table-block-header").html('Block');
+      $("#table-cluster-header").html('Cluster');
       blockDataByGenre("school");
     }
   });
