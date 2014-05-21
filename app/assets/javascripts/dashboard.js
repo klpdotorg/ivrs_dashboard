@@ -37,6 +37,20 @@ $(document).ready(function () {
     dc.redrawAll();
   }
 
+  function blockDataByState(genre,state) {
+    var tmp_arr = [];    
+    var html_template = '<option value="select_block">Select none</option>';    
+    
+    for(i in ruby_data) {      
+      var rdata = ruby_data[i];      
+      if (rdata.genre == genre && tmp_arr.indexOf(rdata.blocks) < 0 && rdata.district.toLowerCase() === state) {
+        html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks+'</option>';
+        tmp_arr.push(rdata.blocks);
+      }
+    }
+    $("#listBlocksChosen").html(html_template);
+    dc.redrawAll();
+  }
 
   $("#listBlocksChosen").change(function (d) {
     var c_block = $(this).val();
@@ -48,7 +62,6 @@ $(document).ready(function () {
       }
     }
 
-
     var tmp_template = '<option value="select_cluster">Select none</option>';
     for(i in tmp_arr) {      
       tmp_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i]+'</option>';
@@ -58,6 +71,11 @@ $(document).ready(function () {
     
   });
 
+  $(document).on('click', '#map path', function (e) {
+    var state = $(this).attr("data-state");    
+    var genre = $('.tabs ul.tabs-nav li.current').attr("id");
+    blockDataByState(genre,state)
+  });
 
 });
 
@@ -240,14 +258,14 @@ function dashboardChartInit(data,all_questions) {
   // Fill Cluster dropdown
   select_box_options = listClustersSorted;
   // Target the select dropdown to be filled with options
-  sel = document.getElementById('listClustersChosen');
-  // For each cluster in the list, create an option
-  for(var i = 0; i < select_box_options.length; ++i) {
-    var opt = document.createElement('option');
-    opt.innerHTML = select_box_options[i];
-    opt.value = select_box_options[i];
-    sel.appendChild(opt);
-  }
+  // sel = document.getElementById('listClustersChosen');
+  // // For each cluster in the list, create an option
+  // for(var i = 0; i < select_box_options.length; ++i) {
+  //   var opt = document.createElement('option');
+  //   opt.innerHTML = select_box_options[i];
+  //   opt.value = select_box_options[i];
+  //   sel.appendChild(opt);
+  // }
   $("#listClustersChosen").change(function (d) {
     var selectBoxArray1 = $("#listClustersChosen").val();
 
@@ -302,6 +320,7 @@ function dashboardChartInit(data,all_questions) {
         //console.log(d);
         return d.properties.dist_name;
       });
+
 
     numResponsesChart.width(responsesChartWidth)
       .height(165)
@@ -470,6 +489,7 @@ function dashboardChartInit(data,all_questions) {
     dc.renderAll();
 
     d3.select("#type g").attr("transform","translate(75,70)")
+    d3.selectAll("#map .district path").attr("data-state",function(d) { return d.properties.DISTSHP.toLowerCase();})
   });
   
   $("<a id='reset-all' href='javascript:dc.filterAll();dc.redrawAll();' style='margin-top:0px;'>Reset all</a>").appendTo("#reset-link");
