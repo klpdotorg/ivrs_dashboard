@@ -15,7 +15,7 @@ class DashboardController < ApplicationController
     sch_count = Response.all_count("schools.genre != 'Anganwadi'").count
 
     @stat_value = {"pre_yest" => pre_yest, "sch_yest" => sch_yest, "pre_count" => pre_count,
-                   "sch_count"=> sch_count}
+      "sch_count"=> sch_count}
 
   end
 
