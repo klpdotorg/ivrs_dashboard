@@ -5,6 +5,19 @@ String.prototype.toProperCase = function () {
 }
 
 $(document).ready(function () {
+
+  $(".menu-data-type").click(function(e) {
+    $(".sub-sections-list li").removeClass("active");
+    $(this).parent("li").addClass("active");
+
+    if ($(this).attr("id") === "s") {
+      $("#school").trigger("click");
+    }else {
+      $("#pre-school").trigger("click");
+    }
+    e.preventDefault();
+  });
+
   $('.tabs ul.tabs-nav li').click(function () {
     var tab_id = $(this).attr('data-tab');
     $('.tabs ul.tabs-nav li').removeClass('current');

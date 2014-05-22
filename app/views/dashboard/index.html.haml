@@ -1,16 +1,24 @@
-.page-section-heading
-  .container
-    #section_header.heading
-      %h2 IVRS Dashboard 
-.pull-right
-  %strong
-    Last call : 
-  = @last_updated      
+%section
+  .page-section-heading-with-menu
+    .container
+      .heading
+        %h2 IVRS Dashboard 
+    .sub-sections-list
+      %ul
+        %li#school2.active
+          %a.menu-data-type{:href => "#", id: "s"} School
+        %li#preschool2
+          %a.menu-data-type{:href => "#", id: "p"} Pre-School
+      .pull-right{style:"margin-top:12px;padding-right:10px;"}
+        %strong
+          Last call : 
+        = @last_updated      
+
 .tabs
-  %ul.tabs-nav
+  %ul.tabs-nav{style: "display:none;"}
     %li.current{"data-tab" => "tab-one", id: "school"} School
     %li{"data-tab" => "tab-one", id: "pre-school"} Pre school    
-  #tab-one.tabs-content.current
+  #tab-one.tabs-content.current{style: "border-width:0px;"}
     .circular_count_item
       .row{style: "margin-top:15px;"}
         .col-sm-3{style: "margin-top:40px;"}
