@@ -45,11 +45,9 @@ $(document).ready(function () {
     }
     
     tmp_arr.sort(alphabetical);
-    
+        
     for(i in tmp_arr) {      
-      var rdata = tmp_arr[i];
-      var blk = rdata.blocks;      
-      html_template += '<option value="'+rdata.blocks+'">'+blk.toProperCase()+'</option>';           
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
     }
     
     $("#listBlocksChosen").html(html_template);
@@ -57,8 +55,8 @@ $(document).ready(function () {
   }
 
   function blockDataByState(genre,state) {
-    
-    var tmp_arr = [];    
+        
+    var tmp_arr = new Array();    
     var html_template = '<option value="select_block">Select none</option>';    
     
     for(i in ruby_data) {      
@@ -67,11 +65,9 @@ $(document).ready(function () {
         tmp_arr.push(rdata.blocks);
       }
     }
-    tmp_arr.sort(alphabetical);    
+
     for(i in tmp_arr) {      
-      var rdata = tmp_arr[i];
-      var blk = rdata.blocks;
-      html_template += '<option value="'+rdata.blocks+'">'+blk.toProperCase()+'</option>';           
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
     }
     
     $("#listBlocksChosen").html(html_template);
@@ -99,13 +95,11 @@ $(document).ready(function () {
     
   });
 
-  $(document).on('click', '#map path', function (e) {
-    dc.filterAll();
-    var state = $(this).attr("data-state");    
-    var genre = $('.tabs ul.tabs-nav li.current').attr("id");
-    blockDataByState(genre,state);
-    
-  });
+//  $(document).on('click', '#map path', function (e) {    
+//    var state = $(this).attr("data-state");    
+//    var genre = $('.tabs ul.tabs-nav li.current').attr("id");
+//    blockDataByState(genre,state);    
+//  });
 
 });
 
@@ -266,17 +260,42 @@ function dashboardChartInit(data,all_questions) {
 
   // Fill Block dropdown
   // Get sorted values
-  var select_box_options = listBlocksSorted;
-  select_box_options.sort(alphabetical);  
-  // Target the select dropdown to be filled with options
-  var sel = document.getElementById('listBlocksChosen');
-  // For each block in the list, create an option    
-  for(var i = 0; i < select_box_options.length; ++i) {
-    var opt = document.createElement('option');
-    opt.innerHTML = select_box_options[i].toProperCase();
-    opt.value = select_box_options[i];
-    sel.appendChild(opt);
+//  var select_box_options = listBlocksSorted;
+//  select_box_options.sort(alphabetical);  
+//  // Target the select dropdown to be filled with options
+//  var sel = document.getElementById('listBlocksChosen');
+//  // For each block in the list, create an option    
+//  for(var i = 0; i < select_box_options.length; ++i) {
+//    var opt = document.createElement('option');
+//    opt.innerHTML = select_box_options[i].toProperCase();
+//    opt.value = select_box_options[i];
+//    sel.appendChild(opt);
+//  }
+  blockDataByGenre();
+  function blockDataByGenre() {
+    var params = $('.tabs ul.tabs-nav li.current').attr("id");
+    var tmp_arr = [];    
+    var html_template = '<option value="select_block">Select none</option>';
+    
+    for(i in ruby_data) {      
+      var rdata = ruby_data[i];
+      if (rdata.genre == params && tmp_arr.indexOf(rdata.blocks) < 0) {
+        //html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks.toProperCase()+'</option>';
+        tmp_arr.push(rdata.blocks);
+      }
+    }
+    
+    tmp_arr.sort(alphabetical);
+        
+    for(i in tmp_arr) {      
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
+    }
+    
+    $("#listBlocksChosen").html(html_template);
+    
   }
+
+
   $("#listBlocksChosen").change(function (d) {
     var selectBoxArray = $("#listBlocksChosen").val();
 
@@ -636,6 +655,49 @@ function dashboardChartInit(data,all_questions) {
         return "visibile";
       }
     });
+    
+  function blockDataByState(genre,state) {
+        
+    var tmp_arr = new Array();    
+    var html_template = '<option value="select_block">Select none</option>';    
+    
+    for(i in ruby_data) {      
+      var rdata = ruby_data[i];      
+      if (rdata.genre == genre && tmp_arr.indexOf(rdata.blocks) < 0 && rdata.district.toLowerCase() === state) {
+        tmp_arr.push(rdata.blocks);
+      }
+    }
+
+    for(i in tmp_arr) {      
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
+    }
+    
+    $("#listBlocksChosen").html(html_template);
+    
+  }
+
+    
+  $(document).on('click', '#map path', function (e) {    
+    
+    if ($(this).attr("class") == "iselected") {
+      blockDataByGenre();
+      dc.filterAll();
+      dc.redrawAll();
+      $(this).attr("class","sselected");
+      
+    }else {
+      choroplethChart.filter(null); 
+      $(this).attr("class","iselected");
+      
+      var state = $(this).attr("data-state");    
+      var genre = $('.tabs ul.tabs-nav li.current').attr("id");
+      blockDataByState(genre,state);    
+      
+    }
+    
+    
+  });
+    
 
   });
   
