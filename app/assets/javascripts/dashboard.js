@@ -1,3 +1,9 @@
+String.prototype.toProperCase = function () {
+  return this.replace(/\w\S*/g, function(txt){
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+}
+
 $(document).ready(function () {
   $('.tabs ul.tabs-nav li').click(function () {
     var tab_id = $(this).attr('data-tab');
@@ -41,8 +47,9 @@ $(document).ready(function () {
     tmp_arr.sort(alphabetical);
     
     for(i in tmp_arr) {      
-      var rdata = tmp_arr[i];      
-      html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks.toProperCase()+'</option>';           
+      var rdata = tmp_arr[i];
+      var blk = rdata.blocks;      
+      html_template += '<option value="'+rdata.blocks+'">'+blk.toProperCase()+'</option>';           
     }
     
     $("#listBlocksChosen").html(html_template);
@@ -50,20 +57,21 @@ $(document).ready(function () {
   }
 
   function blockDataByState(genre,state) {
+    
     var tmp_arr = [];    
     var html_template = '<option value="select_block">Select none</option>';    
     
     for(i in ruby_data) {      
       var rdata = ruby_data[i];      
       if (rdata.genre == genre && tmp_arr.indexOf(rdata.blocks) < 0 && rdata.district.toLowerCase() === state) {
-        //        html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks.toProperCase()+'</option>';
         tmp_arr.push(rdata.blocks);
       }
     }
     tmp_arr.sort(alphabetical);    
     for(i in tmp_arr) {      
-      var rdata = tmp_arr[i];      
-      html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks.toProperCase()+'</option>';           
+      var rdata = tmp_arr[i];
+      var blk = rdata.blocks;
+      html_template += '<option value="'+rdata.blocks+'">'+blk.toProperCase()+'</option>';           
     }
     
     $("#listBlocksChosen").html(html_template);
@@ -92,9 +100,11 @@ $(document).ready(function () {
   });
 
   $(document).on('click', '#map path', function (e) {
+    dc.filterAll();
     var state = $(this).attr("data-state");    
     var genre = $('.tabs ul.tabs-nav li.current').attr("id");
-    blockDataByState(genre,state)
+    blockDataByState(genre,state);
+    
   });
 
 });
@@ -638,12 +648,6 @@ function dashboardChartInit(data,all_questions) {
     $('#listClustersChosen').trigger("change");
   });
 
-}
-
-String.prototype.toProperCase = function () {
-  return this.replace(/\w\S*/g, function(txt){
-    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-  });
 }
 
 function alphabetical(a, b){
