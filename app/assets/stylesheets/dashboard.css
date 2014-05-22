@@ -80,3 +80,7 @@ svg path, select {
 .dc-table-group {
   display: none;
 }
+
+ #question5 .grid-line {
+    display: none;
+}

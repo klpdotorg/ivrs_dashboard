@@ -61,7 +61,7 @@ $(document).ready(function () {
         var tmp_arr = [];
         for(i in ruby_data) {
             var rblock = ruby_data[i].blocks;
-            if (rblock === c_block) {
+            if (rblock === c_block && tmp_arr.indexOf(ruby_data[i].clusters) < 0) {
                 tmp_arr.push(ruby_data[i].clusters);
             }
         }
@@ -93,7 +93,7 @@ function dashboardChartInit(data,all_questions) {
     var question2Chart = dc.pieChart("#question2");
     var question3Chart = dc.pieChart("#question3");
     var question4Chart = dc.pieChart("#question4");
-    var question5Chart = dc.pieChart("#question5");
+    var question5Chart = dc.rowChart("#question5");
     var question5sChart = dc.pieChart("#question5s");
     var question6Chart = dc.pieChart("#question6");
     var dataTable = dc.dataTable("#response-list");
@@ -444,16 +444,22 @@ function dashboardChartInit(data,all_questions) {
         });
 
 
-        question5Chart.width(150)
-        .height(150)
-        .transitionDuration(500)
+        
+        question5Chart.width(180)
+        .height(180)
         .dimension(question5)
         .group(q5Group)
-        .radius(70)
-        .minAngleForLabel(0)
+        .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
         .label(function (d) {
-            //return d.key;
-            });
+            return d.key;
+        })
+        // title sets the row text
+        .title(function (d) {
+            return d.value;
+        })
+        .elasticX(true)
+        .xAxis().ticks(3);        
+        
         question5sChart.width(150)
         .height(150)
         .transitionDuration(500)
@@ -566,7 +572,7 @@ function dashboardChartInit(data,all_questions) {
 
             },
             function (d) {        
-                var tt = $('.tabs ul.tabs-nav li.current').attr("id")
+                var tt = $('.tabs ul.tabs-nav li.current').attr("id");
                 if (tt !== "pre-school") {
                     if (d.question5 > 0) {
                         return "Y";
