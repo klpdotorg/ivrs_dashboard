@@ -10871,13 +10871,13 @@ function dashboardChartInit(data,all_questions) {
   var responsesChartWidth = $("#bar-chart").width();
   var choroplethChart = dc.geoChoroplethChart("#map");
   var schoolTypeChart = dc.pieChart("#type");
-  var question1Chart = dc.pieChart("#question1");
-  var question2Chart = dc.pieChart("#question2");
-  var question3Chart = dc.pieChart("#question3");
-  var question4Chart = dc.pieChart("#question4");
+  var question1Chart = dc.rowChart("#question1");
+  var question2Chart = dc.rowChart("#question2");
+  var question3Chart = dc.rowChart("#question3");
+  var question4Chart = dc.rowChart("#question4");
   var question5Chart = dc.rowChart("#question5");
-  var question5sChart = dc.pieChart("#question5s");
-  var question6Chart = dc.pieChart("#question6");
+  var question5sChart = dc.rowChart("#question5s");
+  var question6Chart = dc.rowChart("#question6");
   var dataTable = dc.dataTable("#response-list");
 
   // Let's have a date object for each record from the individual date fields
@@ -10934,11 +10934,21 @@ function dashboardChartInit(data,all_questions) {
   question4 = questionaire.dimension(function (d) {
     return d.question4;
   }),
-  question5 = questionaire.dimension(function (d) {
-    return d.range;
+  question5 = questionaire.dimension(function (d) {    
+    return d.range;      
   }),
-  question5s = questionaire.dimension(function (d) {
-    return d.question5;
+  question5s = questionaire.dimension(function (d) {    
+    if (d.genre == "school") {      
+      if (d.question5 < 2) {
+        return d.question5;
+      }else {
+        return 0;  
+      }
+      return d.question5;
+    }else {
+      return 0;
+    }
+    
   }),
   question6 = questionaire.dimension(function (d) {
     return d.question6;
@@ -10964,7 +10974,6 @@ function dashboardChartInit(data,all_questions) {
   genre.filter("school");
   getQuestionNameByGenre("Schools");
   
-
   // Get unique list of blocks
   var listBlocksSorted = blockGroup.all()
   .sort(function (a, b) {
@@ -11169,17 +11178,15 @@ function dashboardChartInit(data,all_questions) {
     //.legend(dc.legend().x(10).y(120).gap(5));
 
     question1Chart.width(150)
-    .height(150)
+    .height(100)
     .transitionDuration(500)
     .dimension(question1)
     .group(q1Group)
-    .radius(70)
-    .minAngleForLabel(0)
     .label(function (d) {
       if(d.key == '1')
-        return 'Y';
+        return 'Yes: '+ d.value;
       else if(d.key == '0')
-        return 'N';
+        return 'No: '+ d.value;
     })
     .title(function(d) {
       if (d.key === 1) {
@@ -11187,19 +11194,21 @@ function dashboardChartInit(data,all_questions) {
       }else {
         return "No: " + d.value;
       }
-    });
+    })
+    .elasticX(true)
+    .xAxis()
+    .ticks(2);        
+
     question2Chart.width(150)
-    .height(150)
+    .height(100)
     .transitionDuration(500)
     .dimension(question2)
     .group(q2Group)
-    .radius(70)
-    .minAngleForLabel(0)
     .label(function (d) {
       if(d.key == '1')
-        return 'Y';
+        return 'Yes: '+ d.value;
       else if(d.key == '0')
-        return 'N';
+        return 'No: '+ d.value;
     })
     .title(function(d) {
       if (d.key === 1) {
@@ -11207,20 +11216,21 @@ function dashboardChartInit(data,all_questions) {
       }else {
         return "No: " + d.value;
       }
-    });
+    })
+    .elasticX(true)
+    .xAxis()
+    .ticks(2);        
 
     question3Chart.width(150)
-    .height(150)
+    .height(100)
     .transitionDuration(500)
     .dimension(question3)
     .group(q3Group)
-    .radius(70)
-    .minAngleForLabel(0)
     .label(function (d) {
       if(d.key == '1')
-        return 'Y';
+        return 'Yes: '+ d.value;
       else if(d.key == '0')
-        return 'N';
+        return 'No: '+ d.value;
     })
     .title(function(d) {
       if (d.key === 1) {
@@ -11228,20 +11238,21 @@ function dashboardChartInit(data,all_questions) {
       }else {
         return "No: " + d.value;
       }
-    });
+    })
+    .elasticX(true)
+    .xAxis()
+    .ticks(2);        
 
     question4Chart.width(150)
-    .height(150)
+    .height(100)
     .transitionDuration(500)
     .dimension(question4)
     .group(q4Group)
-    .radius(70)
-    .minAngleForLabel(0)
     .label(function (d) {
       if(d.key == '1')
-        return 'Y';
+        return 'Yes: '+ d.value;
       else if(d.key == '0')
-        return 'N';
+        return 'No: '+ d.value;
     })
     .title(function(d) {
       if (d.key === 1) {
@@ -11249,36 +11260,35 @@ function dashboardChartInit(data,all_questions) {
       }else {
         return "No: " + d.value;
       }
-    });
+    })
+    .elasticX(true)
+    .xAxis()
+    .ticks(2);        
         
     question5Chart.width(180)
     .height(180)
     .dimension(question5)
     .group(q5Group)
-    .ordinalColors(['#3182bd', '#6baed6', '#9ecae1', '#c6dbef', '#dadaeb'])
     .label(function (d) {
-      return d.key;
+      return d.key + ": " + d.value;
     })
-    // title sets the row text
-    .title(function (d) {
-      return d.value;
+    .title(function(d) {
+      return d.key + ": " + d.value;
     })
     .elasticX(true)
     .xAxis().ticks(3);        
         
+    
     question5sChart.width(150)
-    .height(150)
+    .height(100)
     .transitionDuration(500)
     .dimension(question5s)
     .group(q5sGroup)
-    .radius(70)
-    .minAngleForLabel(0)
     .label(function (d) {
       if(d.key == '1')
-        return 'Y';
+        return 'Yes: '+ d.value;
       else if(d.key == '0')
-        return 'N';
-
+        return 'No: '+ d.value;
     })
     .title(function(d) {
       if (d.key === 1) {
@@ -11286,23 +11296,23 @@ function dashboardChartInit(data,all_questions) {
       }else {
         return "No: " + d.value;
       }
-    });
-
+    })
+    .elasticX(true)
+    .xAxis().ticks(2);        
 
     question6Chart.width(150)
     .height(150)
     .transitionDuration(500)
     .dimension(question6)
     .group(q6Group)
-    .radius(70)
-    .minAngleForLabel(0)
     .label(function (d) {
       if(d.key == '1')
-        return 'A';
+        return 'A: '+ d.value;
       else if(d.key == '2')
-        return 'B';
+        return 'B: '+ d.value;
       else if(d.key == '3')
-        return 'C';
+        return 'C: '+ d.value;
+      return 'null: ' + d.value;
     })
     .title(function(d) {
       if(d.key == '1')
@@ -11311,8 +11321,11 @@ function dashboardChartInit(data,all_questions) {
         return 'B: ' + d.value;
       else if(d.key == '3')
         return 'C: ' + d.value;
-    });
-
+      return 'null: ' + d.value;
+    })
+    .elasticX(true)
+    .xAxis()
+    .ticks(2);        
 
     var counter = 0;
     dataTable.dimension(date).group(function (d) {

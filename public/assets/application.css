@@ -126,7 +126,7 @@ svg path, select {
   display: none;
 }
 
- #question5 .grid-line {
+.grid-line {
     display: none;
 }
 /* 
