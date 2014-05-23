@@ -96,12 +96,21 @@ class Response < ActiveRecord::Base
     data.each do |d|
       d[:range] = nil
       unless d[:question5].nil?
-        quarter = ((max - min) / paq)        
-        for v in 1..max
-          if d[:question5] >= ((min+(quarter*v))-quarter) and d[:question5] < (max+quarter)*v
-            d[:range] = ((min+(quarter*v))-quarter).to_s + "-" + ((min+quarter)*v).to_s
+        # quarter = ((max - min) / paq)        
+        # for v in 1..max
+        #   if d[:question5] >= ((min+(quarter*v))-quarter) and d[:question5] < (max+quarter)*v
+        #     d[:range] = ((min+(quarter*v))-quarter).to_s + "-" + ((min+quarter)*v).to_s
+        #   end
+        # end
+        
+          if d[:question5] <= 30
+            d[:range] = "1-31"
+          elsif d[:question5] >= 31 and d[:question5] <= 60
+            d[:range] = "31-60"
+          elsif d[:question5] >= 61 
+            d[:range] = "61+"
           end
-        end
+        
       end
       tmp << d
     end

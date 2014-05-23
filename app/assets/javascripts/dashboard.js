@@ -185,7 +185,7 @@ function dashboardChartInit(data,all_questions) {
   question4 = questionaire.dimension(function (d) {
     return d.question4;
   }),
-  question5 = questionaire.dimension(function (d) {    
+  question5 = questionaire.dimension(function (d) {
     return d.range;      
   }),
   question5s = questionaire.dimension(function (d) {    
@@ -517,7 +517,7 @@ function dashboardChartInit(data,all_questions) {
     .ticks(2);        
         
     question5Chart.width(180)
-    .height(180)
+    .height(130)
     .dimension(question5)
     .group(q5Group)
     .label(function (d) {

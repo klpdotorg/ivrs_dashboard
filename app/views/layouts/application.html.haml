@@ -5,7 +5,81 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body    
+  %body.yui-skin-sam
+    %header.main-header
+      .header-content
+        %a.header_mobile_logo{:href => "/"}
+        %a.mobile_icon{:onclick => "toggle_mobile_nav();"}
+        %nav.top-nav{:role => "navigation"}
+          %ul#navigation
+            %li.home
+              %a{:href => "http://www.klp.org.in", :title => ""}
+                %h1 Karnataka Learning Partnership
+            %li.school_map
+              %a{:href => "http://www.klp.org.in/map", :title => ""} School Map
+            %li.programmes
+              %a{:href => "http://www.klp.org.in/text/reading", :title => ""} Programmes
+              %ul
+                %li
+                  %a{:href => "http://www.klp.org.in/text/reading", :title => ""}
+                    %span>
+                    Akshara
+                %li
+                  %a{:href => "http://www.klp.org.in/text/sikshana", :title => ""}
+                    %span>
+                    Sikshana
+            %li.volunteer
+              %a{:href => "http://www.klp.org.in/text/volunteer", :title => ""} Volunteer
+            %li.database
+              %a{:href => "http://www.klp.org.in/listFiles/2", :title => ""} Data
+              %ul
+                %li
+                  %a{:href => "http://status.klp.org.in", :target => "_blank", :title => ""}
+                    %span>
+                    Status
+                %li
+                  %a{:href => "http://www.klp.org.in/listFiles/2", :target => "_blank", :title => ""}
+                    %span>
+                    Raw Data
+                %li
+                  %a{:href => "http://github.com/klpdotorg", :target => "_blank", :title => ""}
+                    %span>
+                    Code
+            %li.reports
+              %a{:href => "http://www.klp.org.in/text/reports", :title => ""} Reports
+              %ul
+                %li
+                  %a{:href => "http://dise.klp.org.in", :target => "_blank", :title => ""}
+                    %span>
+                    DISE
+                %li
+                  %a{:href => "http://reports.klp.org.in", :target => "_blank", :title => ""}
+                    %span>
+                    KLP Reports
+                %li
+                  %a{:href => "http://sslc.klp.org.in", :target => "_blank", :title => ""}
+                    %span>
+                    SSLC
+                %li
+                  %a{:href => "http://www.klp.org.in/text/reports", :title => ""}
+                    %span>
+                    Other Reports
+            %li.about
+              %a{:href => "http://www.klp.org.in/text/aboutus", :title => ""} About
+              %ul
+                %li
+                  %a{:href => "http://www.klp.org.in/text/aboutus", :title => ""}
+                    %span>
+                    About
+                %li
+                  %a{:href => "http://www.klp.org.in/text/partners", :title => ""}
+                    %span>
+                    Partners
+                %li
+                  %a{:href => "http://www.klp.org.in/text/disclaimer", :title => ""}
+                    %span>
+                    Disclaimer
+        .clr  
     .container.ta_c.mar_top_25
       =image_tag "klp_logo_light.png", alt: "KLP", width: "160"
 
