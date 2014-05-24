@@ -34,6 +34,9 @@ $(document).ready(function () {
       blockDataByGenre("preschool");
       $("#question5s").hide();
       $("#question5").show();
+
+      $("#type_A").show();
+      $("#type").hide();
     }else {
       $("#block-select").html('Block');
       $("#cluster-select").html('Cluster');
@@ -41,6 +44,9 @@ $(document).ready(function () {
       $("#table-cluster-header").html('Cluster');
       $("#question5s").show();
       $("#question5").hide();      
+      $("#type_A").hide();
+      $("#type").show();
+
       blockDataByGenre("school");
     }
   });
@@ -121,7 +127,8 @@ function dashboardChartInit(data,all_questions) {
   var numResponsesChart = dc.barChart("#bar-chart");
   var responsesChartWidth = $("#bar-chart").width();
   var choroplethChart = dc.geoChoroplethChart("#map");
-  var schoolTypeChart = dc.pieChart("#type");
+  var schoolTypeChart = dc.rowChart("#type");
+  var schoolType_AChart = dc.rowChart("#type_A");
   var question1Chart = dc.rowChart("#question1");
   var question2Chart = dc.rowChart("#question2");
   var question3Chart = dc.rowChart("#question3");
@@ -161,8 +168,17 @@ function dashboardChartInit(data,all_questions) {
   genre = questionaire.dimension(function (d) {
     return d.genre;
   }),
-  types = questionaire.dimension(function (d) {
-    return d.types;
+  types_S = questionaire.dimension(function (d) {
+    if (d.genre == "school" && (d.types == "Upper Primary" || d.types == "Model Primary" || d.types == "Lower Primary")) {
+      return d.types;
+    }
+  }),
+  types_A = questionaire.dimension(function (d) {
+    if (d.genre !== "school" && (d.types !== "Upper Primary" || d.types !== "Model Primary" || d.types !== "Lower Primary")) {
+      return d.types;
+    }else {
+      return "";
+    }
   }),
   school_name = questionaire.dimension(function (d) {
     return d.school_name;
@@ -206,7 +222,8 @@ function dashboardChartInit(data,all_questions) {
   });
 
   // Get the count of facts
-  schoolGroup = types.group();
+  schoolGroup = types_S.group();
+  pschoolgroup = types_A.group();
   numResponsesGroup = date.group(d3.time.month),
   q1Group = question1.group();
   q2Group = question2.group();
@@ -258,7 +275,7 @@ function dashboardChartInit(data,all_questions) {
     getQuestionNameByGenre("Preschools");
     $("#type svg").attr("height",150);
     window.genre = "preschool";
-    schoolTypeChart.height(150);
+//    schoolTypeChart.height(150);
     $(".dc-legend").css("visibility","hidden");
 
     $("#num_response_yest_n").html(stat_value['pre_yest']);
@@ -421,12 +438,20 @@ function dashboardChartInit(data,all_questions) {
 
     // Draw the charts
     schoolTypeChart.width(150)
-    .height(150)
+    .height(120)
     .transitionDuration(500)
-    .dimension(types)
+    .dimension(types_S)
     .group(schoolGroup)
-    .radius(70)
-    //.legend(dc.legend().x(10).y(120).gap(5));
+    .xAxis()
+    .ticks(2);        
+
+    schoolType_AChart.width(150)
+    .height(120)
+    .transitionDuration(500)
+    .dimension(types_A)
+    .group(pschoolgroup)
+    .xAxis()
+    .ticks(2);        
 
     question1Chart.width(150)
     .height(100)
@@ -446,7 +471,6 @@ function dashboardChartInit(data,all_questions) {
         return "No: " + d.value;
       }
     })
-    .elasticX(true)
     .xAxis()
     .ticks(2);        
 
@@ -666,11 +690,17 @@ function dashboardChartInit(data,all_questions) {
 
     dc.renderAll();
     $("#question5").hide();
+    $("#type_A").hide();
 
-    d3.select("#type g").attr("transform","translate(75,70)")
     d3.selectAll("#map .district path").attr("data-state",function(d) {
       return d.properties.DISTSHP.toLowerCase();
-    })
+    });
+
+    for(var i = 1; i <= 6; i++) {
+      d3.select("#question"+i+" g").attr("transform","translate(10,0)")
+    }
+
+    d3.select("#type_A g").attr("transform","translate(10,-20)")
 
     var schools_type_list = ["Lower Primary", "Model Primary", "Upper Primary"];
     d3.selectAll(".dc-legend-item")
