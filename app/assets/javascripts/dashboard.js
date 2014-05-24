@@ -37,6 +37,9 @@ $(document).ready(function () {
 
       $("#type_A").show();
       $("#type").hide();
+      dc.filterAll();
+      dc.redrawAll();
+
     }else {
       $("#block-select").html('Block');
       $("#cluster-select").html('Cluster');
@@ -48,6 +51,9 @@ $(document).ready(function () {
       $("#type").show();
 
       blockDataByGenre("school");
+      dc.filterAll();
+      dc.redrawAll();
+
     }
   });
 
@@ -427,6 +433,7 @@ function dashboardChartInit(data,all_questions) {
     .group(numResponsesGroup)
     //.yAxis().ticks(4)
     .centerBar(true)
+    .brushOn(false)
     //.elasticY(true)
     .xUnits(function () {
       return 20;

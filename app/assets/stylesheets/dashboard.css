@@ -84,3 +84,11 @@ svg path, select {
 .grid-line {
     display: none;
 }
+
+rect {
+  pointer-events: none;
+}
+
+g text {
+ pointer-events: none; 
+}
