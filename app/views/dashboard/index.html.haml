@@ -2,7 +2,7 @@
   .page-section-heading-with-menu
     .container
       .heading
-        %h2 IVRS Dashboard 
+        %h2 IVRS Dashboard
     .sub-sections-list
       %ul
         %li#school2.active
@@ -11,13 +11,13 @@
           %a.menu-data-type{:href => "#", id: "p"} Pre-School
       .pull-right{style:"margin-top:12px;padding-right:10px;"}
         %strong
-          Last call : 
-        = @last_updated      
+          Last call :
+        = @last_updated
 
 .tabs
   %ul.tabs-nav{style: "display:none;"}
     %li.current{"data-tab" => "tab-one", id: "school"} School
-    %li{"data-tab" => "tab-one", id: "pre-school"} Pre school    
+    %li{"data-tab" => "tab-one", id: "pre-school"} Pre school
   #tab-one.tabs-content.current{style: "border-width:0px;"}
     .circular_count_item
       .row{style: "margin-top:15px;"}
@@ -25,12 +25,16 @@
           %div#dashboard-info
             %p#num_response_this_week_n.value
               =@stat_value["sch_count"]
+            %p
+              %hr{id:"num_response_this_week_hr", width:"70px"}/
             %p#value-info Total Responses
 
         .col-sm-3{style: "margin-top:40px;"}
           %div#dashboard-info
             %p#num_response_yest_n.value
               =@stat_value['sch_yest']
+            %p
+              %hr{id:"num_response_yest_hr", width:"70px"}/
             %p#value-info No. of response yesterday
 
 
@@ -39,7 +43,7 @@
             %strong Number of Responses
           #bar-chart
 
-      %hr
+      %hr{style: "border:1px solid #3892E3;background: #3892E3;"}
       .row
         .col-sm-3
           %center
@@ -50,7 +54,7 @@
         .col-sm-9
           .row
             .col-sm-3
-              School type
+              \&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; School type
 
             .col-sm-3
               #qt1
@@ -126,6 +130,7 @@
                 #question6
       .row
         .col-sm-12
+          .table-header SCHOOL DETAILS
           %table.table.table-hover{id: "response-list"}
             %thead
               %tr.header

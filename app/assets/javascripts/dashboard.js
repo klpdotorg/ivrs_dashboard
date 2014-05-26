@@ -25,7 +25,7 @@ $(document).ready(function () {
     $(this).addClass('current');
     $("#" + tab_id).addClass('current');
     var i_id = $(this).attr("id");
-    
+
     if (i_id === "pre-school") {
       $("#block-select").html('Project');
       $("#cluster-select").html('Circle');
@@ -46,7 +46,7 @@ $(document).ready(function () {
       $("#table-block-header").html('Block');
       $("#table-cluster-header").html('Cluster');
       $("#question5s").show();
-      $("#question5").hide();      
+      $("#question5").hide();
       $("#type_A").hide();
       $("#type").show();
 
@@ -58,43 +58,43 @@ $(document).ready(function () {
   });
 
   function blockDataByGenre(params) {
-    var tmp_arr = [];    
+    var tmp_arr = [];
     var html_template = '<option value="select_block">Select none</option>';
-    
-    for(i in ruby_data) {      
+
+    for(i in ruby_data) {
       var rdata = ruby_data[i];
       if (rdata.genre == params && tmp_arr.indexOf(rdata.blocks) < 0) {
         //html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks.toProperCase()+'</option>';
         tmp_arr.push(rdata.blocks);
       }
     }
-    
+
     tmp_arr.sort(alphabetical);
-        
-    for(i in tmp_arr) {      
-      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
+
+    for(i in tmp_arr) {
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';
     }
-    
+
     $("#listBlocksChosen").html(html_template);
-    dc.redrawAll();    
+    dc.redrawAll();
   }
 
   function blockDataByState(genre,state) {
-        
-    var tmp_arr = new Array();    
-    var html_template = '<option value="select_block">Select none</option>';    
-    
-    for(i in ruby_data) {      
-      var rdata = ruby_data[i];      
+
+    var tmp_arr = new Array();
+    var html_template = '<option value="select_block">Select none</option>';
+
+    for(i in ruby_data) {
+      var rdata = ruby_data[i];
       if (rdata.genre == genre && tmp_arr.indexOf(rdata.blocks) < 0 && rdata.district.toLowerCase() === state) {
         tmp_arr.push(rdata.blocks);
       }
     }
 
-    for(i in tmp_arr) {      
-      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
+    for(i in tmp_arr) {
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';
     }
-    
+
     $("#listBlocksChosen").html(html_template);
     dc.redrawAll();
   }
@@ -110,20 +110,20 @@ $(document).ready(function () {
     }
 
     tmp_arr.sort(alphabetical);
-    
+
     var tmp_template = '<option value="select_cluster">Select none</option>';
-    for(i in tmp_arr) {      
+    for(i in tmp_arr) {
       tmp_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';
     }
 
     $("#listClustersChosen").html(tmp_template)
-    
+
   });
 
-//  $(document).on('click', '#map path', function (e) {    
-//    var state = $(this).attr("data-state");    
+//  $(document).on('click', '#map path', function (e) {
+//    var state = $(this).attr("data-state");
 //    var genre = $('.tabs ul.tabs-nav li.current').attr("id");
-//    blockDataByState(genre,state);    
+//    blockDataByState(genre,state);
 //  });
 
 });
@@ -208,20 +208,20 @@ function dashboardChartInit(data,all_questions) {
     return d.question4;
   }),
   question5 = questionaire.dimension(function (d) {
-    return d.range;      
+    return d.range;
   }),
-  question5s = questionaire.dimension(function (d) {    
-    if (d.genre == "school") {      
+  question5s = questionaire.dimension(function (d) {
+    if (d.genre == "school") {
       if (d.question5 < 2) {
         return d.question5;
       }else {
-        return 0;  
+        return 0;
       }
       return d.question5;
     }else {
       return 0;
     }
-    
+
   }),
   question6 = questionaire.dimension(function (d) {
     return d.question6;
@@ -247,7 +247,7 @@ function dashboardChartInit(data,all_questions) {
   // Show onlly pre-school data initially
   genre.filter("school");
   getQuestionNameByGenre("Schools");
-  
+
   // Get unique list of blocks
   var listBlocksSorted = blockGroup.all()
   .sort(function (a, b) {
@@ -286,7 +286,7 @@ function dashboardChartInit(data,all_questions) {
 
     $("#num_response_yest_n").html(stat_value['pre_yest']);
     $("#num_response_this_week_n").html(stat_value['pre_count']);
-    
+
   });
 
   // Show only school data
@@ -296,7 +296,7 @@ function dashboardChartInit(data,all_questions) {
     dc.redrawAll();
     getQuestionNameByGenre("Schools");
     //$("#type svg").attr("height",275);
-    $(".dc-legend").css("visibility","visibile");    
+    $(".dc-legend").css("visibility","visibile");
     $("#num_response_yest_n").html(stat_value['sch_yest']);
     $("#num_response_this_week_n").html(stat_value['sch_count']);
 
@@ -306,10 +306,10 @@ function dashboardChartInit(data,all_questions) {
   // Fill Block dropdown
   // Get sorted values
 //  var select_box_options = listBlocksSorted;
-//  select_box_options.sort(alphabetical);  
+//  select_box_options.sort(alphabetical);
 //  // Target the select dropdown to be filled with options
 //  var sel = document.getElementById('listBlocksChosen');
-//  // For each block in the list, create an option    
+//  // For each block in the list, create an option
 //  for(var i = 0; i < select_box_options.length; ++i) {
 //    var opt = document.createElement('option');
 //    opt.innerHTML = select_box_options[i].toProperCase();
@@ -319,25 +319,25 @@ function dashboardChartInit(data,all_questions) {
   blockDataByGenre();
   function blockDataByGenre() {
     var params = $('.tabs ul.tabs-nav li.current').attr("id");
-    var tmp_arr = [];    
+    var tmp_arr = [];
     var html_template = '<option value="select_block">Select none</option>';
-    
-    for(i in ruby_data) {      
+
+    for(i in ruby_data) {
       var rdata = ruby_data[i];
       if (rdata.genre == params && tmp_arr.indexOf(rdata.blocks) < 0) {
         //html_template += '<option value="'+rdata.blocks+'">'+rdata.blocks.toProperCase()+'</option>';
         tmp_arr.push(rdata.blocks);
       }
     }
-    
+
     tmp_arr.sort(alphabetical);
-        
-    for(i in tmp_arr) {      
-      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
+
+    for(i in tmp_arr) {
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';
     }
-    
+
     $("#listBlocksChosen").html(html_template);
-    
+
   }
 
 
@@ -345,13 +345,13 @@ function dashboardChartInit(data,all_questions) {
     var selectBoxArray = $("#listBlocksChosen").val();
 
     if(selectBoxArray !== null && selectBoxArray !== "select_block") {
-      filterBlocks.filter(function (d) {          
+      filterBlocks.filter(function (d) {
         return selectBoxArray.indexOf(d) >= 0;
       });
     } else if(selectBoxArray == "select_block") {
       filterBlocks.filterAll();
     }
-    dc.redrawAll();      
+    dc.redrawAll();
   });
 
   // Fill Cluster dropdown
@@ -379,10 +379,10 @@ function dashboardChartInit(data,all_questions) {
     dc.redrawAll();
 
   });
-  
+
   function getQuestionNameByGenre(genre) {
     var counter = 1;
-    for(i in all_questions) {        
+    for(i in all_questions) {
       if (all_questions[i].genre == genre) {
         $("#qt"+counter).html(all_questions[i].name);
         counter++;
@@ -397,18 +397,31 @@ function dashboardChartInit(data,all_questions) {
 
   d3.json("/rahul/districts.json", function (error, map_data) {
 
+    var schoolTypeColor = {
+      "Lower Primary": "#2C3E50",
+      "Model Primary": "#6398E5",
+      "Upper Primary": "#C6DFE7",
+      "Anganwadi": "#2C3E50",
+      "Akshara Balwadi": "#6398E5",
+      "Independent  Balwadi": "#C6DFE7"
+    }
+
+    var booleanColor = ["#2C3E50","#6398E5","#C6DFE7","#DDF5FC"];
+
     var projection = d3.geo.mercator()
     .scale(2600)
     .translate([-3360, 870]);
 
+
     // Draw the state map
+    var choroplethChartExtent = d3.extent(districtGroup.top(Infinity), function (d) { return d.value; });
     choroplethChart.projection(projection)
     .width(250)
     .height(350)
     .dimension(district)
     .group(districtGroup)
-    .colors(d3.scale.quantize().range(["#9ED2FF", "#81C5FF", "#6BBAFF", "#51AEFF", "#36A2FF", "#1E96FF", "#0089FF", "#0061B5"]))
-    .colorDomain([0, 2000])
+    .colors(d3.scale.quantize().range(["#C6DFE7", "#6398E5" ,"#2C3E50"]))
+    .colorDomain(choroplethChartExtent)
     .colorCalculator(function (d) {
       return d ? choroplethChart.colors()(d) : '#f7f7f7';
     })
@@ -449,22 +462,31 @@ function dashboardChartInit(data,all_questions) {
     .transitionDuration(500)
     .dimension(types_S)
     .group(schoolGroup)
+    .colorCalculator(function (d) {
+      return schoolTypeColor[d.key];
+    })
     .xAxis()
-    .ticks(2);        
+    .ticks(2);
 
     schoolType_AChart.width(150)
     .height(120)
     .transitionDuration(500)
     .dimension(types_A)
     .group(pschoolgroup)
+    .colorCalculator(function (d) {
+      return schoolTypeColor[d.key];
+    })
     .xAxis()
-    .ticks(2);        
+    .ticks(2);
 
     question1Chart.width(150)
     .height(100)
     .transitionDuration(500)
     .dimension(question1)
     .group(q1Group)
+    .colorCalculator(function (d) {
+      return booleanColor[d.key];
+    })
     .label(function (d) {
       if(d.key == '1')
         return 'Yes: '+ d.value;
@@ -479,13 +501,16 @@ function dashboardChartInit(data,all_questions) {
       }
     })
     .xAxis()
-    .ticks(2);        
+    .ticks(2);
 
     question2Chart.width(150)
     .height(100)
     .transitionDuration(500)
     .dimension(question2)
     .group(q2Group)
+    .colorCalculator(function (d) {
+      return booleanColor[d.key];
+    })
     .label(function (d) {
       if(d.key == '1')
         return 'Yes: '+ d.value;
@@ -501,13 +526,16 @@ function dashboardChartInit(data,all_questions) {
     })
     .elasticX(true)
     .xAxis()
-    .ticks(2);        
+    .ticks(2);
 
     question3Chart.width(150)
     .height(100)
     .transitionDuration(500)
     .dimension(question3)
     .group(q3Group)
+    .colorCalculator(function (d) {
+      return booleanColor[d.key];
+    })
     .label(function (d) {
       if(d.key == '1')
         return 'Yes: '+ d.value;
@@ -523,13 +551,16 @@ function dashboardChartInit(data,all_questions) {
     })
     .elasticX(true)
     .xAxis()
-    .ticks(2);        
+    .ticks(2);
 
     question4Chart.width(150)
     .height(100)
     .transitionDuration(500)
     .dimension(question4)
     .group(q4Group)
+    .colorCalculator(function (d) {
+      return booleanColor[d.key];
+    })
     .label(function (d) {
       if(d.key == '1')
         return 'Yes: '+ d.value;
@@ -545,12 +576,15 @@ function dashboardChartInit(data,all_questions) {
     })
     .elasticX(true)
     .xAxis()
-    .ticks(2);        
-        
+    .ticks(2);
+
     question5Chart.width(180)
     .height(130)
     .dimension(question5)
     .group(q5Group)
+    .colorCalculator(function (d, i) {
+      return booleanColor[i];
+    })
     .label(function (d) {
       return d.key + ": " + d.value;
     })
@@ -558,14 +592,17 @@ function dashboardChartInit(data,all_questions) {
       return d.key + ": " + d.value;
     })
     .elasticX(true)
-    .xAxis().ticks(3);        
-        
-    
+    .xAxis().ticks(3);
+
+
     question5sChart.width(150)
     .height(100)
     .transitionDuration(500)
     .dimension(question5s)
     .group(q5sGroup)
+    .colorCalculator(function (d) {
+      return booleanColor[d.key];
+    })
     .label(function (d) {
       if(d.key == '1')
         return 'Yes: '+ d.value;
@@ -580,13 +617,16 @@ function dashboardChartInit(data,all_questions) {
       }
     })
     .elasticX(true)
-    .xAxis().ticks(2);        
+    .xAxis().ticks(2);
 
     question6Chart.width(150)
     .height(150)
     .transitionDuration(500)
     .dimension(question6)
     .group(q6Group)
+    .colorCalculator(function (d) {
+      return booleanColor[d.key];
+    })
     .label(function (d) {
       if(d.key == '1')
         return 'A: '+ d.value;
@@ -607,7 +647,7 @@ function dashboardChartInit(data,all_questions) {
     })
     .elasticX(true)
     .xAxis()
-    .ticks(2);        
+    .ticks(2);
 
     var counter = 0;
     dataTable.dimension(date).group(function (d) {
@@ -672,19 +712,19 @@ function dashboardChartInit(data,all_questions) {
         }
 
       },
-      function (d) {        
+      function (d) {
         var tt = $('.tabs ul.tabs-nav li.current').attr("id");
         if (tt !== "pre-school") {
           if (d.question5 > 0) {
             return "Y";
           }else {
-            return "N";           
+            return "N";
           }
         }else {
-          return d.question5;  
+          return d.question5;
         }
 
-        
+
       },
       function (d) {
         return d.question6;
@@ -718,52 +758,52 @@ function dashboardChartInit(data,all_questions) {
         return "visibile";
       }
     });
-    
+
   function blockDataByState(genre,state) {
-        
-    var tmp_arr = new Array();    
-    var html_template = '<option value="select_block">Select none</option>';    
-    
-    for(i in ruby_data) {      
-      var rdata = ruby_data[i];      
+
+    var tmp_arr = new Array();
+    var html_template = '<option value="select_block">Select none</option>';
+
+    for(i in ruby_data) {
+      var rdata = ruby_data[i];
       if (rdata.genre == genre && tmp_arr.indexOf(rdata.blocks) < 0 && rdata.district.toLowerCase() === state) {
         tmp_arr.push(rdata.blocks);
       }
     }
 
-    for(i in tmp_arr) {      
-      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';           
+    for(i in tmp_arr) {
+      html_template += '<option value="'+tmp_arr[i]+'">'+tmp_arr[i].toProperCase()+'</option>';
     }
-    
+
     $("#listBlocksChosen").html(html_template);
-    
+
   }
 
-    
-  $(document).on('click', '#map path', function (e) {    
-    
+
+  $(document).on('click', '#map path', function (e) {
+
     if ($(this).attr("class") == "iselected") {
       blockDataByGenre();
       dc.filterAll();
       dc.redrawAll();
       $(this).attr("class","sselected");
-      
+
     }else {
-      choroplethChart.filter(null); 
+      choroplethChart.filter(null);
       $(this).attr("class","iselected");
-      
-      var state = $(this).attr("data-state");    
+
+      var state = $(this).attr("data-state");
       var genre = $('.tabs ul.tabs-nav li.current').attr("id");
-      blockDataByState(genre,state);    
-      
+      blockDataByState(genre,state);
+
     }
-    
-    
-  });
-    
+
 
   });
-  
+
+
+  });
+
   $("<a id='reset-all' href='javascript:dc.filterAll();dc.redrawAll();' style='margin-top:0px;'>Reset all</a>").appendTo("#reset-link");
 
   $("#reset-all").click(function() {

@@ -1,21 +1,42 @@
 #dashboard-info {
-  background-color: #3a87ad;
+  background-color: #ffffff;
   border-width: 2px;
   width: 100%;
   height: 90px;
   border-color: white;
 }
+#num_response_this_week_n hr {
+  width:70px;
+  color:#1BAE5A;
+  margin: 0 auto;
+}
 #dashboard-info .value {
   padding-top: 15px;
   text-align: center;
-  color: white;
   font-weight: 100;
   font-size: 52px;
 }
+#dashboard-info #num_response_this_week_n {
+  color: #1BAE5A;
+}
+#dashboard-info #num_response_yest_n {
+  color: #6f6fB8;
+}
+#num_response_this_week_hr {
+  border:1px solid #1BAE5A;
+  background: #1BAE5A;
+  margin: 0 auto;
+}
+#num_response_yest_hr {
+  border:1px solid #6f6fB8;
+  background: #6f6fB8;
+  margin: 0 auto;
+}
+
 #dashboard-info #value-info {
   margin-top: -10px;
   text-align: center;
-  color: white;
+  color: #66727f;
   font-size: 16px;
 }
 
@@ -47,6 +68,7 @@
 .dc-chart rect.bar {
   stroke: none;
   cursor: pointer;
+  fill: #3892E3;
 }
 
 svg path, select {
@@ -90,5 +112,22 @@ rect {
 }
 
 g text {
- pointer-events: none; 
+ pointer-events: none;
+}
+
+tr.header {
+  background: #F6F6F6;
+}
+
+.table-header {
+  background: #2C3E50;
+  color: white;
+  text-align: center;
+  height: 40px;
+  font-size: 14px;
+  line-height: 3em;
+}
+
+select {
+  background: none;
 }
