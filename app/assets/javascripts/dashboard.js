@@ -399,14 +399,14 @@ function dashboardChartInit(data,all_questions) {
 
     var schoolTypeColor = {
       "Lower Primary": "#5280C2",
-      "Model Primary": "#6398E5",
+      "Model Primary": "#7EB3FF",
       "Upper Primary": "#C6DFE7",
       "Anganwadi": "#5280C2",
-      "Akshara Balwadi": "#6398E5",
+      "Akshara Balwadi": "#7EB3FF",
       "Independent  Balwadi": "#C6DFE7"
     }
 
-    var booleanColor = ["#5280C2","#6398E5","#C6DFE7","#DDF5FC"];
+    var booleanColor = ["#5280C2","#7EB3FF","#C6DFE7","#DDF5FC"];
 
     var projection = d3.geo.mercator()
     .scale(2600)
@@ -420,7 +420,7 @@ function dashboardChartInit(data,all_questions) {
     .height(350)
     .dimension(district)
     .group(districtGroup)
-    .colors(d3.scale.quantize().range(["#C6DFE7", "#6398E5" ,"#5280C2"]))
+    .colors(d3.scale.quantize().range(["#C6DFE7", "#7EB3FF" ,"#5280C2"]))
     .colorDomain(choroplethChartExtent)
     .colorCalculator(function (d) {
       return d ? choroplethChart.colors()(d) : '#f7f7f7';
@@ -625,9 +625,14 @@ function dashboardChartInit(data,all_questions) {
     .dimension(question6)
     .group(q6Group)
     .colorCalculator(function (d) {
-      return booleanColor[d.key];
+      if(d.key) {
+        return booleanColor[d.key];
+      } else {
+        return booleanColor[0];
+      }
     })
     .label(function (d) {
+      console.log(d);
       if(d.key == '1')
         return 'A: '+ d.value;
       else if(d.key == '2')
