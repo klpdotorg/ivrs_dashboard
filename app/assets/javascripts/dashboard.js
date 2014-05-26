@@ -398,15 +398,15 @@ function dashboardChartInit(data,all_questions) {
   d3.json("/rahul/districts.json", function (error, map_data) {
 
     var schoolTypeColor = {
-      "Lower Primary": "#2C3E50",
+      "Lower Primary": "#5280C2",
       "Model Primary": "#6398E5",
       "Upper Primary": "#C6DFE7",
-      "Anganwadi": "#2C3E50",
+      "Anganwadi": "#5280C2",
       "Akshara Balwadi": "#6398E5",
       "Independent  Balwadi": "#C6DFE7"
     }
 
-    var booleanColor = ["#2C3E50","#6398E5","#C6DFE7","#DDF5FC"];
+    var booleanColor = ["#5280C2","#6398E5","#C6DFE7","#DDF5FC"];
 
     var projection = d3.geo.mercator()
     .scale(2600)
@@ -420,7 +420,7 @@ function dashboardChartInit(data,all_questions) {
     .height(350)
     .dimension(district)
     .group(districtGroup)
-    .colors(d3.scale.quantize().range(["#C6DFE7", "#6398E5" ,"#2C3E50"]))
+    .colors(d3.scale.quantize().range(["#C6DFE7", "#6398E5" ,"#5280C2"]))
     .colorDomain(choroplethChartExtent)
     .colorCalculator(function (d) {
       return d ? choroplethChart.colors()(d) : '#f7f7f7';
