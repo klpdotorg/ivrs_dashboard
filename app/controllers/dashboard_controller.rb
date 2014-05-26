@@ -5,7 +5,10 @@ class DashboardController < ApplicationController
     @dashboard = Response.makeDataInChartFormat(allschool)
     @questions = Question.all    
 
-    last_updated = Time.parse(File.open("public/last-update.txt", "r").read)
+    #last_updated = Time.parse(File.open("public/last-update.txt", "r").read)
+    #@last_updated = last_updated.strftime("%a, %d %b %Y %H:%M:%S") +" " + last_updated.zone
+
+    last_updated = Response.maximum("date")
     @last_updated = last_updated.strftime("%a, %d %b %Y %H:%M:%S") +" " + last_updated.zone
 
     pre_yest = Response.yesterday_count("schools.genre =  'Anganwadi'").count
