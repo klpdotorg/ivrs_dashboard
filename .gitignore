@@ -16,4 +16,5 @@
 /nbproject/private/
 nbproject/
 config/database.yml
+public/last-update.txt
 
