@@ -592,7 +592,7 @@ function dashboardChartInit(data,all_questions) {
       return d.key + ": " + d.value;
     })
     .elasticX(true)
-    .xAxis().ticks(3);
+    .xAxis().ticks(2);
 
 
     question5sChart.width(150)
