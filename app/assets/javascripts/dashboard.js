@@ -469,7 +469,7 @@ function dashboardChartInit(data,all_questions) {
     .ticks(2);
 
     schoolType_AChart.width(150)
-    .height(120)
+    .height(150)
     .transitionDuration(500)
     .dimension(types_A)
     .group(pschoolgroup)
