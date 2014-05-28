@@ -33,5 +33,4 @@ group :development do
   gem 'capistrano-rails'
   gem 'sshkit'
   gem 'rvm1-capistrano3', :require => false
-
 end
