@@ -7,7 +7,7 @@ class School < ActiveRecord::Base
 
   def self.seed
     School.delete_all
-    csv_text = File.read('public/schools3.csv')
+    csv_text = File.read('public/schools4.csv')
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
       hash_data = row.to_hash
