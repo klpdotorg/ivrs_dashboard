@@ -1,7 +1,7 @@
 class Response < ActiveRecord::Base
   attr_accessible :a1, :a2, :a3, :a4, :a5, :a6, :date, :mobile_no, :school_id
 
-  belongs_to :school
+  belongs_to :school, :foreign_key => :school_id, :primary_key => :code
   before_save :trim_strings
 
   #SCOPES
@@ -28,11 +28,28 @@ class Response < ActiveRecord::Base
 
   def self.makeDataInChartFormat(responses)
     values = []
+    schools_count = 0
+    pre_schools_count = 0
+    y_schools_count = 0
+    y_pre_schools_count = 0
+    last_call_date = responses.maximum("date")
+
     responses.each do |response|
-      
-      type = 'school'
-      if response.school.genre == "Anganwadi"
+            
+      if response.genre == "Anganwadi" || response.genre == "Akshara Balwadi" || response.genre == "Independent  Balwadi"
         type = "preschool"
+        pre_schools_count += 1
+
+        if response.date.strftime("%Y-%m-%d") == (Date.today - 1).strftime("%Y-%m-%d") 
+          y_pre_schools_count += 1
+        end
+      else
+        type = 'school'
+        schools_count += 1  
+        if response.date.strftime("%Y-%m-%d") == (Date.today - 1).strftime("%Y-%m-%d") 
+          y_schools_count += 1
+        end
+
       end
       counter = 0
       unless response.a1.nil?
@@ -63,20 +80,20 @@ class Response < ActiveRecord::Base
         end
       end
 
-
       if counter > 3 # this for complete responses
 
-        values << { id: response.id, district: response.school.district.upcase,
-                    blocks: response.school.block, clusters: response.school.cluster,
-                    genre: type, school_name: response.school.name,
+        values << { id: response.id, district: response.district.upcase,
+                    blocks: response.block, clusters: response.cluster,
+                    genre: type, school_name: response.name,
                     mobile_no: response.mobile_no, dates: response.date.day,
-                    months: response.date.month, years: response.date.year, types: response.school.genre,
+                    months: response.date.month, years: response.date.year, types: response.genre,
                     question1: response.a1, question2: response.a2, question3: response.a3,
                     question4: response.a4, question5: response.a5, question6: response.a6
                   }
       end
     end
     values = Response.getQuaterValues(values)
+    values = {dashboard: values, ps_count: pre_schools_count, ss_count: schools_count, yps_count: y_pre_schools_count, yss_count: y_schools_count, last_call: last_call_date}
   end
 
   def self.getQuaterValues(data)
