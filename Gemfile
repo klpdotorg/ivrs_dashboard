@@ -24,6 +24,14 @@ gem "roo"
 # Development
 group :development do
   gem "better_errors"
-  gem "binding_of_caller"
+  gem "binding_of_caller"  
   gem 'capistrano'
+  gem 'capistrano-bundler'
+  #gem 'capistrano-rvm'
+  #gem 'capistrano-rbenv'
+  # gem 'capistrano-chruby'
+  gem 'capistrano-rails'
+  gem 'sshkit'
+  gem 'rvm1-capistrano3', :require => false
+
 end

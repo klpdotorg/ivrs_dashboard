@@ -121,7 +121,7 @@ class Response < ActiveRecord::Base
         # end
         
           if d[:question5] <= 30
-            d[:range] = "1-31"
+            d[:range] = "1-30"
           elsif d[:question5] >= 31 and d[:question5] <= 60
             d[:range] = "31-60"
           elsif d[:question5] >= 61 
