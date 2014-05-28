@@ -395,7 +395,7 @@ function dashboardChartInit(data,all_questions) {
     return d.id;
   });
 
-  d3.json("/rahul/districts.json", function (error, map_data) {
+  d3.json("/districts.json", function (error, map_data) {
 
     var schoolTypeColor = {
       "Lower Primary": "#5280C2",
@@ -632,7 +632,6 @@ function dashboardChartInit(data,all_questions) {
       }
     })
     .label(function (d) {
-      console.log(d);
       if(d.key == '1')
         return 'A: '+ d.value;
       else if(d.key == '2')
