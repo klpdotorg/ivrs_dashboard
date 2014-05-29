@@ -27,10 +27,5 @@ group :development do
   gem "binding_of_caller"  
  
   gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rvm', git: 'git@github.com:capistrano/rvm.git'
-  gem 'capistrano-rbenv'
-  gem 'rvm-capistrano'
 end
 

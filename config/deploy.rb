@@ -1,47 +1,58 @@
-set :scm, "git"
-set :repo_url, "git://github.com/pykih/akshara.git"
-set :branch, "master"
-set :keep_releases, 5
+# config valid only for Capistrano 3.1
+lock '3.2.1'
 
-set :stages, [:production, :staging]
-set :default_stage, :production
+set :application, '182.18.164.18'
+set :repo_url, 'git@github.com:pykih/akshara.git'
 
-SSHKit.config.command_map[:rake]  = "bundle exec rake"
-SSHKit.config.command_map[:rails] = "bundle exec rails"
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-# set :default_environment, {
-#   'PATH' => "/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:$PATH",
-#   "RUBY_VERSION" => "ruby 1.9.3",
-#   "GEM_HOME" => "/usr/local/rvm/gems/ruby-1.9.3-p545/gems",
-#   "GEM_PATH" => "/usr/local/rvm/gems/ruby-1.9.3-p545/gems",
-#   "BUNDLE_PATH" => "/usr/local/rvm/gems/ruby-1.9.3-p545/gems",
-# }
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, '/var/www'
+
+# Default value for :scm is :git
+# set :scm, :git
+
+# Default value for :format is :pretty
+# set :format, :pretty
+
+# Default value for :log_level is :debug
+# set :log_level, :debug
+
+# Default value for :pty is false
+#set :pty, true
+
+# Default value for :linked_files is []
+# set :linked_files, %w{config/database.yml}
+
+# Default value for linked_dirs is []
+# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+ set :keep_releases, 5
 
 namespace :deploy do
-  desc "Tell Passenger to restart the app."
-  task :restart do
-    on "root@182.18.164.18" do
-      execute "service apache2 restart"  
-      #execute "touch #{current_path}/tmp/restart.txt"
-    end
-  end
-  
-  desc "Symlink shared configs and folders on each release."
-  task :symlink_shared do
-    on "root@182.18.164.18" do
-      execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-      execute "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
-    end  
-  end
-  
-  
-  desc "Sync the public/assets directory."
-  task :assets do
-    on "root@182.18.164.18" do
-      system "rsync -vr --exclude='.DS_Store' public/assets root@182.18.164.18:#{shared_path}/"
-    end
-  end
-end
 
-after :deploy, 'deploy:symlink_shared'
-after :deploy, "deploy:restart"
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      execute :touch, release_path.join('tmp/restart.txt')
+    end
+  end
+
+  after :publishing, :restart
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      within release_path do
+        execute :rake, 'cache:clear'
+      end
+    end
+  end
+
+end
