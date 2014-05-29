@@ -22,7 +22,7 @@ require 'capistrano/deploy'
 
 # #require 'rvm1/capistrano3'
 
-#require 'capistrano/rvm'
+require 'capistrano/rvm'
 #require 'capistrano/rbenv'
 #require 'capistrano/chruby'
 #require 'capistrano/bundler'
