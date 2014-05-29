@@ -10,6 +10,7 @@ gem 'gon'
 gem 'jbuilder'
 gem 'tinymce-rails'
 gem 'whenever'
+gem 'rake'
 
 # User Interface
 group :assets do

@@ -161,6 +161,7 @@ DEPENDENCIES
   jquery-rails
   pg
   rails (= 3.2.13)
+  rake
   roo
   sass-rails (~> 3.2.3)
   tinymce-rails

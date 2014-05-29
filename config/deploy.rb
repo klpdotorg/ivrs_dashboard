@@ -34,6 +34,10 @@ set :deploy_to, '/var/www'
 # Default value for keep_releases is 5
  set :keep_releases, 5
 
+set :rvm_type, :system
+set :default_environment, {
+  'PATH' => "..../usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH"
+}
 namespace :deploy do
 
   desc 'Restart application'
@@ -44,15 +48,29 @@ namespace :deploy do
     end
   end
 
-  after :publishing, :restart
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
       within release_path do
-        execute :rake, 'cache:clear'
+        #execute :rake, 'cache:clear'
       end
     end
   end
+  after  :publishing, :restart  
+  before :publishing , 'deploy:symlink_shared'
+  desc "Symlink shared configs and folders on each release."
+  task :symlink_shared do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "ln -nfs /config/database.yml #{release_path}/config/database.yml"
+      execute "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
+    end
+  end
+  
+  desc "Sync the public/assets directory."
+  task :assets do
+    system "rsync -vr --exclude='.DS_Store' public/assets root@#{application}:#{shared_path}/"
+  end  
 
 end
+
+
