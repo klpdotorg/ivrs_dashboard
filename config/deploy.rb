@@ -58,10 +58,34 @@ namespace :deploy do
   end
   after  :publishing, :restart  
   before :publishing , 'deploy:symlink_shared'
+
+    db_config = <<-EOF
+      base: &base
+        adapter: postgresql
+        encoding: utf8
+        reconnect: false
+        pool: 5
+        username: akshara
+        password: akshara
+ 
+      development:
+        database: akshara_rails
+        <<: *base
+ 
+      test:
+        database: akshara_rails
+        <<: *base
+ 
+      production:
+        database: akshara_rails
+        <<: *base
+    EOF
+
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "ln -nfs /config/database.yml #{release_path}/config/database.yml"
+      puts db_config, "#{shared_path}/config/database.yml"
+      execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
       execute "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
     end
   end
@@ -69,6 +93,7 @@ namespace :deploy do
   desc "Sync the public/assets directory."
   task :assets do
     system "rsync -vr --exclude='.DS_Store' public/assets root@#{application}:#{shared_path}/"
+    system "rsync -vr --exclude='.DS_Store' config/database.yml root@#{application}:#{shared_path}/"
   end  
 
 end
