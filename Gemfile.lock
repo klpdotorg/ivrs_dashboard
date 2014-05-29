@@ -1,3 +1,11 @@
+GIT
+  remote: git@github.com:capistrano/rvm.git
+  revision: dc35ec5e7a74a422250bd6ff5e8885c8b742d0e5
+  specs:
+    capistrano-rvm (0.1.1)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,6 +53,9 @@ GEM
     capistrano-rails (1.1.1)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rbenv (2.0.2)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
     chronic (0.10.2)
     coderay (1.1.0)
     coffee-rails (3.2.2)
@@ -54,8 +65,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
-    commands (0.2.1)
-      rails (>= 3.2.0)
     debug_inspector (0.0.2)
     erubis (2.7.0)
     execjs (2.0.2)
@@ -120,9 +129,8 @@ GEM
       spreadsheet (> 0.6.4)
     ruby-ole (1.2.11.7)
     rubyzip (1.1.3)
-    rvm1-capistrano3 (1.2.2)
-      capistrano (~> 3.0)
-      sshkit (>= 1.2)
+    rvm-capistrano (1.5.0)
+      capistrano (>= 2.15.4)
     sass (3.3.6)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -164,10 +172,11 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   capistrano
-  capistrano-bundler
+  capistrano-bundler (>= 1.1.0)
   capistrano-rails
+  capistrano-rbenv
+  capistrano-rvm!
   coffee-rails (~> 3.2.1)
-  commands
   friendly_id (~> 4.0.1)
   gon
   haml
@@ -176,9 +185,8 @@ DEPENDENCIES
   pg
   rails (= 3.2.13)
   roo
-  rvm1-capistrano3
+  rvm-capistrano
   sass-rails (~> 3.2.3)
-  sshkit
   tinymce-rails
   uglifier (>= 1.0.3)
   whenever
