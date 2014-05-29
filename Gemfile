@@ -28,8 +28,9 @@ group :development do
  
   gem 'capistrano'
   gem 'capistrano-rails'
-  gem 'capistrano-bundler', '>= 1.1.0'
-  # gem 'capistrano-rvm', git: 'git@github.com:capistrano/rvm.git'
-  # gem 'capistrano-rbenv'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm', git: 'git@github.com:capistrano/rvm.git'
+  gem 'capistrano-rbenv'
+  gem 'rvm-capistrano'
 end
-#gem 'rvm-capistrano'
+

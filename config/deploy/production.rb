@@ -12,6 +12,6 @@ server '182.18.164.18', user: 'root', roles: %w{web app db}
 # See the example commented out section in the file
 # for more options.
 set :ssh_options, {
-    forward_agent: false,
+    forward_agent: true,
     user: 'root',
 }

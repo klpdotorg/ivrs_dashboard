@@ -32,8 +32,10 @@ end
 namespace :deploy do
   desc "Tell Passenger to restart the app."
   task :restart do
-    execute "service apache2 restart"  
-    execute "touch #{current_path}/tmp/restart.txt"
+    on "root@182.18.164.18" do
+      execute "service apache2 restart"  
+      #execute "touch #{current_path}/tmp/restart.txt"
+    end
   end
   
   desc "Symlink shared configs and folders on each release."
@@ -52,3 +54,4 @@ namespace :deploy do
 end
 
 after :deploy, 'deploy:symlink_shared'
+after :deploy, "deploy:restart"
