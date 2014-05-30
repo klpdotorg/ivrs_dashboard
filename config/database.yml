@@ -1,0 +1,18 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: akshara_rails
+  host: localhost
+  pool: 5
+#  username: 
+#  password: 
+
+production:
+  adapter: postgresql
+  host: localhost
+  username: nekkoru
+  password: derpderp
+  database: akshara_rails
+  encoding: UTF8
+  username: akshara
+  password: akshara
