@@ -48,10 +48,14 @@ tinymce/plugins/emoticons/img/smiley-wink.gif: tinymce/plugins/emoticons/img/smi
 tinymce/plugins/emoticons/img/smiley-wink/index.gif: tinymce/plugins/emoticons/img/smiley-wink/index.gif
 tinymce/plugins/emoticons/img/smiley-yell.gif: tinymce/plugins/emoticons/img/smiley-yell.gif
 tinymce/plugins/emoticons/img/smiley-yell/index.gif: tinymce/plugins/emoticons/img/smiley-yell/index.gif
+tinymce/plugins/example/dialog.html: tinymce/plugins/example/dialog.html
+tinymce/plugins/example/dialog/index.html: tinymce/plugins/example/dialog/index.html
 tinymce/plugins/media/moxieplayer.swf: tinymce/plugins/media/moxieplayer.swf
 tinymce/plugins/media/moxieplayer/index.swf: tinymce/plugins/media/moxieplayer/index.swf
 tinymce/skins/lightgray/fonts/readme.md: tinymce/skins/lightgray/fonts/readme.md
 tinymce/skins/lightgray/fonts/readme/index.md: tinymce/skins/lightgray/fonts/readme/index.md
+tinymce/skins/lightgray/fonts/tinymce-small.dev.svg: tinymce/skins/lightgray/fonts/tinymce-small.dev.svg
+tinymce/skins/lightgray/fonts/tinymce-small/index.dev.svg: tinymce/skins/lightgray/fonts/tinymce-small/index.dev.svg
 tinymce/skins/lightgray/fonts/tinymce-small.eot: tinymce/skins/lightgray/fonts/tinymce-small.eot
 tinymce/skins/lightgray/fonts/tinymce-small/index.eot: tinymce/skins/lightgray/fonts/tinymce-small/index.eot
 tinymce/skins/lightgray/fonts/tinymce-small.svg: tinymce/skins/lightgray/fonts/tinymce-small.svg
@@ -60,6 +64,8 @@ tinymce/skins/lightgray/fonts/tinymce-small.ttf: tinymce/skins/lightgray/fonts/t
 tinymce/skins/lightgray/fonts/tinymce-small/index.ttf: tinymce/skins/lightgray/fonts/tinymce-small/index.ttf
 tinymce/skins/lightgray/fonts/tinymce-small.woff: tinymce/skins/lightgray/fonts/tinymce-small.woff
 tinymce/skins/lightgray/fonts/tinymce-small/index.woff: tinymce/skins/lightgray/fonts/tinymce-small/index.woff
+tinymce/skins/lightgray/fonts/tinymce.dev.svg: tinymce/skins/lightgray/fonts/tinymce.dev.svg
+tinymce/skins/lightgray/fonts/tinymce/index.dev.svg: tinymce/skins/lightgray/fonts/tinymce/index.dev.svg
 tinymce/skins/lightgray/fonts/tinymce.eot: tinymce/skins/lightgray/fonts/tinymce.eot
 tinymce/skins/lightgray/fonts/tinymce/index.eot: tinymce/skins/lightgray/fonts/tinymce/index.eot
 tinymce/skins/lightgray/fonts/tinymce.svg: tinymce/skins/lightgray/fonts/tinymce.svg
