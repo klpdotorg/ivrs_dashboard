@@ -10764,10 +10764,12 @@ $(document).ready(function () {
     }else {
       $("#pre-school").trigger("click");
     }
+    alert("deploy via capistrano reciepe");
     e.preventDefault();
   });
 
   $('.tabs ul.tabs-nav li').click(function () {
+    alert("deploy via capistrano reciepe");
     var tab_id = $(this).attr('data-tab');
     $('.tabs ul.tabs-nav li').removeClass('current');
     $('.tabs .tabs-content').removeClass('current');
