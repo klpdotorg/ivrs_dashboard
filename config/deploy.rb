@@ -32,7 +32,7 @@ set :deploy_to, '/var/www'
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
- set :keep_releases, 5
+ set :keep_releases, 1
 
 set :rvm_type, :system
 set :default_environment, {
@@ -56,36 +56,11 @@ namespace :deploy do
       end
     end
   end
-  after  :publishing, :restart  
-  before :publishing , 'deploy:symlink_shared'
-
-    db_config = <<-EOF
-      base: &base
-        adapter: postgresql
-        encoding: utf8
-        reconnect: false
-        pool: 5
-        username: akshara
-        password: akshara
- 
-      development:
-        database: akshara_rails
-        <<: *base
- 
-      test:
-        database: akshara_rails
-        <<: *base
- 
-      production:
-        database: akshara_rails
-        <<: *base
-    EOF
 
   desc "Symlink shared configs and folders on each release."
   task :symlink_shared do
-    on roles(:app), in: :sequence, wait: 5 do
-      puts db_config, "#{shared_path}/config/database.yml"
-      execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    on roles(:app), in: :sequence, wait: 5 do      
+      #execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
       execute "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
     end
   end
@@ -93,8 +68,19 @@ namespace :deploy do
   desc "Sync the public/assets directory."
   task :assets do
     system "rsync -vr --exclude='.DS_Store' public/assets root@#{application}:#{shared_path}/"
-    system "rsync -vr --exclude='.DS_Store' config/database.yml root@#{application}:#{shared_path}/"
   end  
+
+  # desc "Write database settings"
+  # task :update_database_settings do
+  #   on roles(:app), in: :sequence, wait: 5 do
+  #     #execute "ln -nfs #{current_path}/config/database.yml #{release_path}/config/database.yml"
+  #     puts db_config, "#{release_path}/config/database.yml"
+  #   end
+  # end
+
+  after  :publishing, :restart  
+  before :publishing , 'deploy:symlink_shared'
+#  before :migrate, "deploy:update_database_settings"
 
 end
 
