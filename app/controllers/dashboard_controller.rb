@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
     @questions = Question.all        
     @last_updated = hash_data[:last_call].strftime("%a, %d %b %Y %H:%M:%S") +" " + hash_data[:last_call].zone
     @stat_value = {"pre_yest" => hash_data[:yps_count], "sch_yest" => hash_data[:yss_count], "pre_count" => hash_data[:ps_count],"sch_count"=> hash_data[:ss_count]}
-    render text: "deploy via capistrano"
+    render text: "wow this works.... deploy via capistrano"
   end
 
 end
