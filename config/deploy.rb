@@ -61,8 +61,44 @@ namespace :deploy do
 
   after  :publishing, :restart  
   before :publishing , 'deploy:symlink_shared'
+#  before :migrate, "db:configure"
+
   #before :migrate, "deploy:update_database_settings"
   
 end
 
 
+# namespace :db do
+#   desc "Create database yaml in shared path"
+#   task :configure do
+#     database_name = "akshara_rails"
+#     database_username = "akshara"
+#     database_password = Capistrano::CLI.password_prompt "Database Password: "
+  
+#     db_config = <<-EOF
+#       base: &base
+#         adapter: postgresql
+#         encoding: utf8
+#         reconnect: false
+#         pool: 5
+#         username: #{database_username}
+#         password: #{database_password}
+ 
+#       development:
+#         database: #{database_name}
+#         <<: *base
+  
+#       production:
+#         database: #{database_name}
+#         <<: *base
+#     EOF
+ 
+#     execute "mkdir -p #{shared_path}/config"
+#     put db_config, "#{shared_path}/config/database.yml"
+#   end
+ 
+#   desc "Make symlink for database yaml"
+#   task :symlink do
+#     run "ln -nfs #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
+#   end
+# end
