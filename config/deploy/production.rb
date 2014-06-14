@@ -6,7 +6,7 @@
 
 role :app, %w{root@182.18.164.18}
 role :web, %w{root@182.18.164.18}
-role :db,  %w{root@182.18.164.18}
+role :db,  %w{root@182.18.164.18}, :primary => true 
 
 
 # Extended Server Syntax
@@ -15,7 +15,7 @@ role :db,  %w{root@182.18.164.18}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '182.18.164.18', user: 'root', roles: %w{web app}, my_property: :my_value
+server '182.18.164.18', user: 'root', roles: %w{web app db}, my_property: :my_value
 # set :stage, :production
 # set :rails_env, 'production'
 

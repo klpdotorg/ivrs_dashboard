@@ -150,7 +150,7 @@ class Response < ActiveRecord::Base
   def self.getYesterdayData
     fr_dt = (Date.today - 1).strftime("%m/%d/%Y")
     to_dt = fr_dt
-    iopen = open("http://202.83.16.183:85/akshara/json_feeds.php?fromdate=#{fr_dt}&enddate=#{to_dt}").read
+    iopen = open("http://89.145.83.72/akshara/json_feeds.php?fromdate=#{fr_dt}&enddate=#{to_dt}").read
     
     unless iopen == "null"
       results = JSON.parse(iopen)
