@@ -154,7 +154,7 @@ class Response < ActiveRecord::Base
     results = JSON.parse(iopen)
     if results.count > 0      
       results.each do |result|
-        Response.create(mobile_no: result['Mobile Number'], school_id: result['School ID'],
+        Response.create!(mobile_no: result['Mobile Number'], school_id: result['School ID'],
         date: result['Date & Time'], a1: result['1'], a2: result['2'], a3: result['3'],
         a4: result['4'], a5: result['5'], a6: result['6'])
       end      
@@ -164,7 +164,7 @@ class Response < ActiveRecord::Base
       file.write(Time.now)
       file.close
     end
-
+    results
   end
 
 end
