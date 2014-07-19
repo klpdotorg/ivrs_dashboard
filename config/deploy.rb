@@ -8,7 +8,7 @@ set :deploy_to, '/var/www'
 
 # Default value for :scm is :git
 # set :scm, :git
-set :repo_url, 'git@github.com:pykih/akshara.git'
+set :repo_url, 'git@github.com:klpdotorg/ivrs_dashboard.git'
 
 # Default value for keep_releases is 5
 set :keep_releases, 3
