@@ -793,8 +793,8 @@ a {
       width: auto;
       padding-right: 65px;
       margin-right: 65px;
-      line-height: 32px;
-      background: url("http://dev.klp.org.in/style/images/KLP_logo_footer.png") no-repeat right center; }
+      line-height: 32px;      
+      background: url("http://klp.org.in/images/KLP_logo_footer.png") no-repeat right center; }
       .main-footer .footer-wrapper .nav ul {
         list-style: none;
         width: 100%;

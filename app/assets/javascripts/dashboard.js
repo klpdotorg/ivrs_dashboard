@@ -737,7 +737,10 @@ function dashboardChartInit(data,all_questions) {
     .sortBy(function (d) {
       return d.date;
     })
-    .order(d3.ascending);
+    .order(d3.descending);
+    // .sortValues(function(a,b) {
+    //   return a.q2 - b.q2
+    // });
 
     dc.renderAll();
     $("#question5").hide();
